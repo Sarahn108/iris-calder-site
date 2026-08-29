@@ -9,62 +9,29 @@ export default function Page() {
   const [view, setView] = useState<View>('home')
   const [projectId, setProjectId] = useState<string>(projects[0].id)
   const [projectsOpen, setProjectsOpen] = useState(false)
-
-  const navBtnStyle = (active: boolean) => ({
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    color: 'inherit',
-    opacity: active ? 1 : 0.5,
-    fontSize: '0.75rem',
-    letterSpacing: '0.08em',
-    textTransform: 'uppercase' as const,
-    padding: 0,
-  })
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   return (
     <main>
-      <nav
-        className="ic-mono"
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '1.5rem 2rem',
-          borderBottom: '1px solid #d2cbbb',
-          position: 'sticky',
-          top: 0,
-          background: 'var(--paper)',
-          zIndex: 20,
-        }}
-      >
-        {/* Wordmark doubles as the Home link — no separate "Home" nav item */}
-        <button onClick={() => setView('home')} aria-label="Sarah Nicholl — Home" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', fontFamily: 'serif', fontStyle: 'italic', fontSize: '1.1rem', padding: 0 }}>
+      <nav className="site-nav ic-mono">
+        <button onClick={() => { setView('home'); setMobileNavOpen(false) }} aria-label="Sarah Nicholl — Home" className="site-word">
           Sarah Nicholl
         </button>
 
-        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-          {/* Projects — dropdown lives on the nav button itself */}
-          <div style={{ position: 'relative' }}>
-            <button onClick={() => setProjectsOpen((o) => !o)} style={{ ...navBtnStyle(view === 'projects'), display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+        <button className="nav-burger" aria-label="Toggle menu" onClick={() => setMobileNavOpen((o) => !o)}>
+          {mobileNavOpen ? '✕' : '☰'}
+        </button>
+
+        <div className={`nav-links ${mobileNavOpen ? 'open' : ''}`}>
+          <div className={`nav-dd ${projectsOpen ? 'open' : ''}`}>
+            <button onClick={() => setProjectsOpen((o) => !o)} className={`nav-btn ${view === 'projects' ? 'active' : ''}`}>
               Projects
-              <span style={{ fontSize: '0.6rem', transition: 'transform 0.2s ease', transform: projectsOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
+              <span className="chev">▾</span>
             </button>
             {projectsOpen && (
               <>
-                <div onClick={() => setProjectsOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 25 }} />
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 'calc(100% + 0.6rem)',
-                    left: 0,
-                    minWidth: '230px',
-                    background: 'var(--paper)',
-                    border: '1px solid #d2cbbb',
-                    zIndex: 30,
-                    boxShadow: '0 14px 34px rgba(38,38,34,0.1)',
-                  }}
-                >
+                <div onClick={() => setProjectsOpen(false)} className="nav-dd-backdrop" />
+                <div className="nav-dd-panel">
                   {projects.map((p) => (
                     <button
                       key={p.id}
@@ -72,21 +39,12 @@ export default function Page() {
                         setProjectId(p.id)
                         setView('projects')
                         setProjectsOpen(false)
+                        setMobileNavOpen(false)
                       }}
-                      style={{
-                        display: 'block',
-                        width: '100%',
-                        textAlign: 'left',
-                        background: p.id === projectId && view === 'projects' ? 'var(--mat)' : 'none',
-                        border: 'none',
-                        borderBottom: '1px solid #d2cbbb',
-                        padding: '0.85rem 1.05rem',
-                        cursor: 'pointer',
-                        color: 'inherit',
-                      }}
+                      className={`nav-dd-opt ${p.id === projectId && view === 'projects' ? 'active' : ''}`}
                     >
-                      <span style={{ display: 'block', fontSize: '0.62rem', opacity: 0.5, marginBottom: '0.25rem' }}>{p.no}</span>
-                      <span style={{ fontFamily: 'serif', fontStyle: 'italic', fontSize: '1rem', textTransform: 'none', letterSpacing: 0 }}>{p.title}</span>
+                      <span className="no">{p.no}</span>
+                      <span className="t">{p.title}</span>
                     </button>
                   ))}
                 </div>
@@ -94,10 +52,10 @@ export default function Page() {
             )}
           </div>
 
-          <button onClick={() => setView('about')} style={navBtnStyle(view === 'about')}>
+          <button onClick={() => { setView('about'); setMobileNavOpen(false) }} className={`nav-btn ${view === 'about' ? 'active' : ''}`}>
             About
           </button>
-          <button onClick={() => setView('contact')} style={navBtnStyle(view === 'contact')}>
+          <button onClick={() => { setView('contact'); setMobileNavOpen(false) }} className={`nav-btn ${view === 'contact' ? 'active' : ''}`}>
             Contact
           </button>
         </div>
