@@ -6,40 +6,45 @@ import { useEffect, useRef, useState } from 'react'
 /* 1. Home View                                                       */
 /* ================================================================== */
 export function Home({ go }: { go: (p: string) => void }) {
+  const words = ['Photography', 'Drawing', 'Sculpture', 'Film']
   return (
-    <section className="ic-hero" style={{ padding: '8rem 2rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center', minHeight: '80vh' }}>
-      <div className="ic-hero-copy" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-        <p className="ic-hero-eyebrow ic-mono" style={{ fontSize: '0.75rem', letterSpacing: '0.1em', opacity: 0.6 }}>Photographs — Drawings — Film fragments</p>
-        <h1 style={{ fontSize: '3.5rem', fontWeight: 300, lineHeight: 1.1, fontFamily: 'serif' }}>
-          Light leaves a mark
-          <br />
-          before it leaves.
-        </h1>
-        <p style={{ fontSize: '1rem', opacity: 0.8, maxWidth: '400px', lineHeight: 1.6 }}>
-          A study of overlooked moments — the way afternoon sun sits on a stairwell, a curtain
-          half-drawn, a room just after someone has left it.
+    <section className="ic-hero" style={{ padding: '6rem 2rem', display: 'grid', gridTemplateColumns: '0.9fr 1.1fr', gap: '3rem', alignItems: 'center', minHeight: '85vh' }}>
+      <div className="ic-hero-copy" style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+        <p className="ic-hero-eyebrow ic-mono" style={{ fontSize: '0.78rem', letterSpacing: '0.08em', opacity: 0.65 }}>
+          {words.map((w, i) => (
+            <span key={w}>
+              {w}
+              {i < words.length - 1 && <span style={{ margin: '0 0.55em', opacity: 0.5 }}>·</span>}
+            </span>
+          ))}
         </p>
-        <div className="ic-hero-foot" style={{ display: 'flex', gap: '2rem', marginTop: '4rem', fontSize: '0.75rem' }}>
+
+        <h1 style={{ fontSize: 'clamp(2.1rem, 3.4vw, 2.8rem)', fontWeight: 300, lineHeight: 1.25, fontFamily: 'serif', fontStyle: 'italic', margin: 0 }}>
+          How fleeting moments of light and shadow briefly transform the everyday
+        </h1>
+
+        <blockquote style={{ margin: 0, paddingLeft: '1rem', borderLeft: '1px solid #D2CBBB' }}>
+          <p style={{ fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.75, margin: 0, fontStyle: 'italic' }}>
+            &ldquo;All the diversity, all the charm, and all the beauty of life are made up of light and shade.&rdquo;
+          </p>
+          <footer className="ic-mono" style={{ marginTop: '0.5rem', fontSize: '0.7rem', opacity: 0.55, fontStyle: 'normal' }}>Leo Tolstoy</footer>
+        </blockquote>
+
+        <div className="ic-hero-foot" style={{ marginTop: '1rem' }}>
           <button
             type="button"
             className="ic-mono"
             onClick={() => go('projects')}
-            style={{ cursor: 'pointer', background: 'none', border: 'none', color: 'inherit', padding: 0, fontWeight: 'bold', borderBottom: '1px solid currentColor' }}
+            style={{ cursor: 'pointer', background: 'none', border: 'none', color: 'inherit', padding: 0, fontSize: '0.75rem', letterSpacing: '0.04em', borderBottom: '1px solid currentColor' }}
           >
             View projects →
           </button>
-          <span className="ic-mono" style={{ opacity: 0.5 }}>Est. — ongoing</span>
-          <span className="ic-mono" style={{ opacity: 0.5 }}>Based in a north-facing room</span>
         </div>
       </div>
+
       <div className="ic-hero-media" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div className="piece-photo" style={{ width: '100%', maxWidth: '500px' }}>
-          <img
-            src="https://picsum.photos/seed/iris-hero/900/700"
-            alt="Afternoon light falling across an empty room"
-            loading="lazy"
-            style={{ width: '100%', display: 'block' }}
-          />
+        <div className="piece-photo" style={{ width: '100%', maxWidth: '640px' }}>
+          <img src="/images/home-hero.jpg" alt="Light tracing across train tracks at night" loading="lazy" style={{ width: '100%', display: 'block' }} />
         </div>
       </div>
     </section>
@@ -50,16 +55,19 @@ export function Home({ go }: { go: (p: string) => void }) {
 /* 2. Media pieces — photo / drawing / film                           */
 /* ================================================================== */
 type MediaItem =
-  | { type: 'photo'; seed: string; alt: string; w?: number; h?: number }
+  | { type: 'photo'; src: string; alt: string }
   | { type: 'drawing'; variant: 'window' | 'stair' | 'figure' | 'curtain' }
   | { type: 'film'; bx: string; by: string }
 
-function Photo({ media }: { media: Extract<MediaItem, { type: 'photo' }> }) {
-  const w = media.w ?? 900
-  const h = media.h ?? 1100
+function Photo({ media, fill = false }: { media: Extract<MediaItem, { type: 'photo' }>; fill?: boolean }) {
   return (
-    <div className="piece-photo">
-      <img src={`https://picsum.photos/seed/${media.seed}/${w}/${h}`} alt={media.alt} loading="lazy" />
+    <div className="piece-photo" style={fill ? { width: '100%', height: '100%' } : undefined}>
+      <img
+        src={media.src}
+        alt={media.alt}
+        loading="lazy"
+        style={fill ? { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } : undefined}
+      />
     </div>
   )
 }
@@ -114,8 +122,8 @@ function Film({ media }: { media: Extract<MediaItem, { type: 'film' }> }) {
   )
 }
 
-function Piece({ media }: { media: MediaItem }) {
-  if (media.type === 'photo') return <Photo media={media} />
+function Piece({ media, fill }: { media: MediaItem; fill?: boolean }) {
+  if (media.type === 'photo') return <Photo media={media} fill={fill} />
   if (media.type === 'drawing') return <Drawing media={media} />
   return <Film media={media} />
 }
@@ -138,7 +146,7 @@ function useReveal<T extends HTMLElement>() {
           }
         })
       },
-      { threshold: 0.14 }
+      { threshold: 0.12 }
     )
     io.observe(el)
     return () => io.disconnect()
@@ -147,7 +155,7 @@ function useReveal<T extends HTMLElement>() {
 }
 
 /* ================================================================== */
-/* 4. Section types — each project composes these differently          */
+/* 4. Section types                                                    */
 /* ================================================================== */
 type Align = 'left' | 'right' | 'center'
 
@@ -156,6 +164,16 @@ type Section =
   | { kind: 'full'; media: MediaItem; idx: string; cap: string }
   | { kind: 'space'; w: string; align: Align; idx: string; cap: string }
   | { kind: 'rail'; label: string; items: { media: MediaItem; w: string; idx: string; cap: string }[] }
+  | { kind: 'filmSlot'; label?: string }
+  | { kind: 'mosaic'; items: MediaItem[] }
+  | { kind: 'bookSpread'; left: MediaItem; right: MediaItem }
+  | { kind: 'contactSheet'; items: MediaItem[] }
+
+// Deterministic pseudo-random offset per index, so scattered layouts are stable across renders
+function seeded(i: number, salt: number) {
+  const x = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453
+  return x - Math.floor(x)
+}
 
 function SectionBlock({ section }: { section: Section }) {
   const [ref, inView] = useReveal<HTMLDivElement>()
@@ -165,7 +183,7 @@ function SectionBlock({ section }: { section: Section }) {
       <div
         ref={ref}
         className={`sec ${inView ? 'in' : ''}`}
-        style={{ width: section.align === 'center' ? section.w : section.w, alignSelf: section.align === 'left' ? 'flex-start' : section.align === 'right' ? 'flex-end' : 'center' }}
+        style={{ width: section.w, alignSelf: section.align === 'left' ? 'flex-start' : section.align === 'right' ? 'flex-end' : 'center' }}
       >
         <Piece media={section.media} />
         <div className="sec-cap" style={{ justifyContent: section.align === 'right' ? 'flex-end' : section.align === 'center' ? 'center' : 'flex-start' }}>
@@ -203,21 +221,90 @@ function SectionBlock({ section }: { section: Section }) {
     )
   }
 
-  // rail — horizontal scroll section, items can each be a different width
+  if (section.kind === 'rail') {
+    return (
+      <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '100%', alignSelf: 'center' }}>
+        <div className="rail-hint">
+          <span>{section.label}</span>
+          <span className="rline" />
+          <span>scroll →</span>
+        </div>
+        <div className="rail">
+          {section.items.map((it, i) => (
+            <div key={i} className="rail-item" style={{ width: it.w }}>
+              <Piece media={it.media} />
+              {it.cap && (
+                <div className="cap">
+                  {it.idx} — {it.cap}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  if (section.kind === 'filmSlot') {
+    return (
+      <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '100%', alignSelf: 'center' }}>
+        <div className="film-slot">
+          <span className="ic-mono">{section.label ?? 'Film — to be added'}</span>
+        </div>
+      </div>
+    )
+  }
+
+  if (section.kind === 'mosaic') {
+    return (
+      <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '100%', alignSelf: 'center' }}>
+        <div className="mosaic">
+          {section.items.map((m, i) => {
+            const rot = (seeded(i, 1) - 0.5) * 6
+            const dy = (seeded(i, 2) - 0.5) * 22
+            const size = 96 + seeded(i, 3) * 64 // 96px - 160px
+            return (
+              <div
+                key={i}
+                className="mosaic-item"
+                style={{
+                  width: `${size}px`,
+                  height: `${size}px`,
+                  transform: `rotate(${rot.toFixed(2)}deg) translateY(${dy.toFixed(1)}px)`,
+                }}
+              >
+                <Piece media={m} fill />
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
+  if (section.kind === 'bookSpread') {
+    return (
+      <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '92%', alignSelf: 'center' }}>
+        <div className="book-spread">
+          <div className="book-page book-page-left">
+            <Piece media={section.left} fill />
+          </div>
+          <div className="book-gutter" />
+          <div className="book-page book-page-right">
+            <Piece media={section.right} fill />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // contactSheet
   return (
     <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '100%', alignSelf: 'center' }}>
-      <div className="rail-hint">
-        <span>{section.label}</span>
-        <span className="rline" />
-        <span>scroll →</span>
-      </div>
-      <div className="rail">
-        {section.items.map((it, i) => (
-          <div key={i} className="rail-item" style={{ width: it.w }}>
-            <Piece media={it.media} />
-            <div className="cap">
-              {it.idx} — {it.cap}
-            </div>
+      <div className="contact-sheet">
+        {section.items.map((m, i) => (
+          <div key={i} className="contact-sheet-item">
+            <Piece media={m} fill />
           </div>
         ))}
       </div>
@@ -226,7 +313,7 @@ function SectionBlock({ section }: { section: Section }) {
 }
 
 /* ================================================================== */
-/* 5. Project data — each project has its own section sequence         */
+/* 5. Project data                                                     */
 /* ================================================================== */
 export type Project = {
   id: string
@@ -238,170 +325,102 @@ export type Project = {
   sections: Section[]
 }
 
+const tracingLightScroll = [1, 2, 3, 4, 5].map((n) => ({
+  media: { type: 'photo' as const, src: `/images/tracing-light-scroll-${n}.jpg`, alt: `Tracing Light — study ${n}` },
+  w: '46vw',
+  idx: `${n}`,
+  cap: '',
+}))
+
+const tracingLightMosaic: MediaItem[] = Array.from({ length: 16 }, (_, i) => ({
+  type: 'photo' as const,
+  src: `/images/tracing-light-patch-${i + 1}.jpg`,
+  alt: `Tracing Light — fragment ${i + 1}`,
+}))
+
+const kingsCrossScroll = [1, 2, 3, 4, 5, 6].map((n) => ({
+  media: { type: 'photo' as const, src: `/images/kings-cross-scroll-${n}.jpg`, alt: `King's Cross Storeys — study ${n}` },
+  w: '42vw',
+  idx: `${n}`,
+  cap: '',
+}))
+
 export const projects: Project[] = [
   {
-    id: 'rooms-after',
+    id: 'tracing-light',
     no: 'P.01',
-    title: 'Rooms After',
-    year: '2023 – 2025',
-    medium: 'Silver gelatin, graphite, 16mm',
-    blurb: 'The largest of the three bodies of work — a restless survey of the same handful of interiors, watched across two years. It moves quickly, the way a room fills and empties.',
+    title: 'Tracing Light',
+    year: '',
+    medium: '',
+    blurb:
+      "Tracing Light is an ongoing body of work exploring the behaviour of light and shadow in relation to space, time and transience. Through photography, print, installation and moving image, the work attends to fleeting moments of illumination within ordinary environments, where light's passage briefly transforms perception and draws attention to the temporal nature of the everyday.\n\nBy extending the photographic image beyond representation into material and spatial forms, the work invites slower, more attentive ways of seeing.",
     sections: [
-      {
-        kind: 'rail',
-        label: '01 — Contact strip',
-        items: [
-          { media: { type: 'photo', seed: 'iris-02a', alt: 'Stairwell in late light', w: 700, h: 900 }, w: '46vw', idx: 'No. 01', cap: 'Stairwell, 4pm' },
-          { media: { type: 'film', bx: '65%', by: '35%' }, w: '58vw', idx: 'No. 02', cap: '16mm loop — traces of light' },
-          { media: { type: 'drawing', variant: 'curtain' }, w: '36vw', idx: 'No. 03', cap: 'Ink wash — threshold' },
-          { media: { type: 'photo', seed: 'iris-02b', alt: 'Kitchen in late afternoon light', w: 800, h: 700 }, w: '42vw', idx: 'No. 04', cap: 'Kitchen, late afternoon' },
-        ],
-      },
-      { kind: 'single', media: { type: 'photo', seed: 'iris-01', alt: 'Window light falling across a plaster wall', w: 1000, h: 700 }, w: '68%', align: 'left', idx: 'No. 05', cap: 'Silver gelatin study — window light' },
-      { kind: 'single', media: { type: 'drawing', variant: 'window' }, w: '26%', align: 'right', idx: 'No. 06', cap: 'Graphite on paper — untitled' },
-      { kind: 'full', media: { type: 'photo', seed: 'iris-07', alt: 'Long hallway with dust in a beam of light', w: 1600, h: 800 }, idx: 'No. 07', cap: 'Silver gelatin — hallway, dust' },
-      { kind: 'single', media: { type: 'film', bx: '25%', by: '60%' }, w: '38%', align: 'center', idx: 'No. 08', cap: 'Super 8, loop — the room after' },
-      { kind: 'single', media: { type: 'drawing', variant: 'figure' }, w: '22%', align: 'left', idx: 'No. 09', cap: 'Charcoal — figure, seated' },
+      { kind: 'rail', label: '01 — Scroll', items: tracingLightScroll },
+      { kind: 'filmSlot' },
+      { kind: 'mosaic', items: tracingLightMosaic },
     ],
   },
   {
-    id: 'thresholds',
+    id: 'kings-cross-storeys',
     no: 'P.02',
-    title: 'Thresholds',
-    year: '2024',
-    medium: 'Contact prints, ink wash',
-    blurb: 'A quiet counterpoint — only a few pieces, held far apart, with deliberate empty space between them. Made to be walked through slowly.',
+    title: "King's Cross Storeys",
+    year: '',
+    medium: '',
+    blurb: '',
     sections: [
-      {
-        kind: 'rail',
-        label: '01 — Details',
-        items: [
-          { media: { type: 'photo', seed: 'iris-th-02', alt: 'Detail of a door frame', w: 900, h: 900 }, w: '40vw', idx: 'No. 01', cap: 'Door frame, detail' },
-          { media: { type: 'photo', seed: 'iris-th-03', alt: 'Detail of a window latch', w: 900, h: 1100 }, w: '30vw', idx: 'No. 02', cap: 'Latch, morning' },
-        ],
-      },
-      { kind: 'full', media: { type: 'photo', seed: 'iris-th-01', alt: 'Sheer curtain half drawn across a window', w: 1400, h: 850 }, idx: 'No. 03', cap: 'Contact print — curtain, half drawn' },
-      { kind: 'space', w: '32%', align: 'right', idx: 'No. 04', cap: 'Space left intentionally' },
-      { kind: 'single', media: { type: 'drawing', variant: 'curtain' }, w: '36%', align: 'center', idx: 'No. 05', cap: 'Ink wash — threshold' },
+      { kind: 'rail', label: '01 — Scroll', items: kingsCrossScroll },
+      { kind: 'filmSlot' },
+      { kind: 'mosaic', items: [] },
     ],
   },
   {
-    id: 'traces-of-light',
+    id: 'many-hands-make',
     no: 'P.03',
-    title: 'Traces of Light',
-    year: '2021 – 2022',
-    medium: '16mm, Super 8, charcoal',
-    blurb: 'The earliest work, and the most film-led. Loops of light drifting across surfaces, paired with charcoal studies made while watching them.',
+    title: 'Many Hands Make',
+    year: '',
+    medium: '',
+    blurb: '',
     sections: [
+      { kind: 'full', media: { type: 'photo', src: '/images/project3-hero.jpg', alt: 'Many Hands Make — landscape study' }, idx: '', cap: '' },
       {
-        kind: 'rail',
-        label: '01 — Loops & studies',
-        items: [
-          { media: { type: 'film', bx: '60%', by: '55%' }, w: '50vw', idx: 'No. 01', cap: 'Super 8, loop — drift' },
-          { media: { type: 'drawing', variant: 'figure' }, w: '26vw', idx: 'No. 02', cap: 'Charcoal — figure, seated' },
-          { media: { type: 'film', bx: '20%', by: '70%' }, w: '44vw', idx: 'No. 03', cap: '16mm, loop — second pass' },
-          { media: { type: 'drawing', variant: 'stair' }, w: '30vw', idx: 'No. 04', cap: 'Graphite — study of the stair' },
-        ],
+        kind: 'bookSpread',
+        left: { type: 'photo', src: '/images/project3-spread-left.jpg', alt: 'Many Hands Make — spread, left page' },
+        right: { type: 'photo', src: '/images/project3-spread-right.jpg', alt: 'Many Hands Make — spread, right page' },
       },
-      { kind: 'full', media: { type: 'film', bx: '35%', by: '30%' }, idx: 'No. 05', cap: '16mm, loop — first light' },
-      { kind: 'single', media: { type: 'photo', seed: 'iris-tl-01', alt: 'Empty hallway with dust in a beam of light', w: 900, h: 1150 }, w: '40%', align: 'left', idx: 'No. 06', cap: 'Silver gelatin — hallway, dust' },
-    ],
-  },
-  {
-    id: 'contact-sheets',
-    no: 'P.04',
-    title: 'Contact Sheets',
-    year: '2021',
-    medium: 'Unedited 35mm contact prints',
-    blurb: 'Full rolls, unedited and unsequenced — the near-misses and the frame before the frame, left exactly as they came off the reel.',
-    sections: [
       {
-        kind: 'rail',
-        label: '01 — Full roll, unedited',
-        items: [
-          { media: { type: 'photo', seed: 'iris-cs-01', alt: 'Contact print frame 1', w: 700, h: 700 }, w: '22vw', idx: '01', cap: 'Frame 01' },
-          { media: { type: 'photo', seed: 'iris-cs-02', alt: 'Contact print frame 2', w: 700, h: 700 }, w: '22vw', idx: '02', cap: 'Frame 02' },
-          { media: { type: 'photo', seed: 'iris-cs-03', alt: 'Contact print frame 3', w: 700, h: 700 }, w: '22vw', idx: '03', cap: 'Frame 03' },
-          { media: { type: 'photo', seed: 'iris-cs-04', alt: 'Contact print frame 4', w: 700, h: 700 }, w: '22vw', idx: '04', cap: 'Frame 04' },
-          { media: { type: 'photo', seed: 'iris-cs-05', alt: 'Contact print frame 5', w: 700, h: 700 }, w: '22vw', idx: '05', cap: 'Frame 05' },
-          { media: { type: 'photo', seed: 'iris-cs-06', alt: 'Contact print frame 6', w: 700, h: 700 }, w: '22vw', idx: '06', cap: 'Frame 06' },
-        ],
+        kind: 'contactSheet',
+        items: [1, 2, 3, 4].map((n) => ({ type: 'photo' as const, src: `/images/project3-contact-${n}.jpg`, alt: `Many Hands Make — contact sheet frame ${n}` })),
       },
-      { kind: 'full', media: { type: 'photo', seed: 'iris-cs-07', alt: 'The chosen frame, printed large', w: 1500, h: 760 }, idx: 'No. 07', cap: 'The one frame that was printed' },
-      { kind: 'single', media: { type: 'drawing', variant: 'window' }, w: '24%', align: 'right', idx: 'No. 08', cap: 'Graphite — from the contact sheet' },
     ],
   },
 ]
 
 /* ================================================================== */
-/* 6. Dropdown selector                                                */
+/* 6. Projects page — project chosen via the nav dropdown              */
 /* ================================================================== */
-function ProjectDropdown({
-  active,
-  onSelect,
-}: {
-  active: Project
-  onSelect: (p: Project) => void
-}) {
-  const [open, setOpen] = useState(false)
-  return (
-    <div className="dd">
-      <button type="button" className={`dd-trigger ${open ? 'open' : ''}`} onClick={() => setOpen((o) => !o)}>
-        <span>
-          {active.no} — {active.title}
-        </span>
-        <span className="chev">▾</span>
-      </button>
-      {open && (
-        <>
-          <div className="dd-backdrop" onClick={() => setOpen(false)} />
-          <div className="dd-panel">
-            {projects.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                className={`dd-opt ${p.id === active.id ? 'active' : ''}`}
-                onClick={() => {
-                  onSelect(p)
-                  setOpen(false)
-                }}
-              >
-                <span className="no ic-mono">
-                  {p.no} — {p.year}
-                </span>
-                <span className="t">{p.title}</span>
-              </button>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
-  )
-}
-
-/* ================================================================== */
-/* 7. Projects page — dropdown switches between full project layouts   */
-/* ================================================================== */
-export function Projects() {
-  const [active, setActive] = useState<Project>(projects[0])
+export function Projects({ projectId }: { projectId?: string }) {
+  const active = projects.find((p) => p.id === projectId) ?? projects[0]
 
   return (
     <section style={{ padding: '4rem 2rem 8rem' }}>
       <div className="ic-section-head" style={{ marginBottom: '3rem' }}>
-        <span className="ic-mono" style={{ opacity: 0.5 }}>01 — Selected work</span>
-        <h2 style={{ fontSize: '2rem', fontFamily: 'serif', fontWeight: 300, margin: '0.5rem 0 0' }}>Projects</h2>
+        <span className="ic-mono" style={{ opacity: 0.5 }}>
+          {active.no} — Selected work
+        </span>
+        <h2 style={{ fontSize: '2rem', fontFamily: 'serif', fontStyle: 'italic', fontWeight: 300, margin: '0.5rem 0 0' }}>{active.title}</h2>
 
-        <ProjectDropdown active={active} onSelect={setActive} />
-
-        <div style={{ maxWidth: '640px', marginTop: '2rem' }}>
-          <p className="ic-mono" style={{ fontSize: '0.78rem', opacity: 0.55, marginBottom: '0.9rem' }}>
-            {active.year} — {active.medium}
-          </p>
-          <p style={{ fontSize: '1.05rem', lineHeight: 1.6, opacity: 0.85, margin: 0 }}>{active.blurb}</p>
-        </div>
+        {active.blurb && (
+          <div style={{ maxWidth: '640px', marginTop: '1.5rem' }}>
+            {active.blurb.split('\n\n').map((p, i) => (
+              <p key={i} style={{ fontSize: '1.02rem', lineHeight: 1.65, opacity: 0.85, margin: '0 0 1rem' }}>
+                {p}
+              </p>
+            ))}
+          </div>
+        )}
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', marginTop: '5rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4rem' }}>
         {active.sections.map((section, i) => (
           <SectionBlock key={`${active.id}-${i}`} section={section} />
         ))}
@@ -411,84 +430,58 @@ export function Projects() {
 }
 
 /* ================================================================== */
-/* 8. About                                                            */
+/* 7. About                                                             */
 /* ================================================================== */
 export function About() {
-  const exhibitions = [
-    { show: 'Traces — group show, Camberwell', year: '2025' },
-    { show: 'Rooms After — solo, Deptford', year: '2023' },
-    { show: 'Contact Sheets — group, Margate', year: '2021' },
-  ]
   return (
     <section style={{ padding: '6rem 2rem 10rem', display: 'flex', gap: '5rem', flexWrap: 'wrap' }}>
-      <div style={{ flex: '1 1 280px' }}>
-        <span className="ic-mono" style={{ opacity: 0.5, fontSize: '0.75rem' }}>02 — About</span>
-        <h2 style={{ fontFamily: 'serif', fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', margin: '0.8rem 0 0', maxWidth: '10em' }}>
-          Working quietly, in available light.
-        </h2>
+      <div style={{ flex: '1 1 260px' }}>
+        <span className="ic-mono" style={{ opacity: 0.5, fontSize: '0.75rem' }}>About</span>
+        <div className="piece-photo" style={{ width: '160px', marginTop: '1.5rem' }}>
+          <img src="/images/about-emblem.jpg" alt="Rainbow of light cast across a wall by a light switch" loading="lazy" style={{ width: '100%', display: 'block' }} />
+        </div>
       </div>
 
-      <div style={{ flex: '1.3 1 380px', maxWidth: '34em', opacity: 0.85 }}>
+      <div style={{ flex: '1.3 1 380px', maxWidth: '34em', opacity: 0.9 }}>
         <p style={{ margin: '0 0 1.4rem', lineHeight: 1.7 }}>
-          Iris Calder works across <strong style={{ color: '#262622', fontWeight: 500 }}>photography, drawing, and 16mm and Super 8 film</strong>,
-          returning to the same handful of rooms and streets to watch how light moves through them
-          across a day, a season, a year.
+          My practice explores the behaviour of light and shadow in relation to space, time and
+          transience. Working across photography, film and sculpture, the work attends to fleeting
+          moments of illumination within ordinary, everyday environments, where light&rsquo;s passage
+          briefly alters perception and draws attention to the fragile temporality of experience.
         </p>
         <p style={{ margin: '0 0 1.4rem', lineHeight: 1.7 }}>
-          The work is not about the subject so much as what the subject leaves behind — a shadow on
-          a wall after the object that cast it has moved, the shape a body leaves in a chair, the
-          soft burn of a window across old wallpaper.
+          An enduring fascination with light underpins the practice, shaping an intuitive process of
+          observation, experimentation and material enquiry. Photography provides the starting point
+          for an expanded practice in which images are translated through thread, moving image,
+          drawing and installation, allowing light itself to become both material and metaphor.
         </p>
-        <p style={{ margin: '0 0 1.4rem', lineHeight: 1.7 }}>
-          Trained first as a printmaker, Calder still works entirely with available light and
-          unedited contact prints, treating the darkroom and the drawing table as the same kind of
-          quiet room.
-        </p>
-
-        <div style={{ marginTop: '2.4rem', borderTop: '1px solid #d2cbbb', paddingTop: '1.4rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.55rem 0', borderBottom: '1px solid #d2cbbb', fontSize: '0.85rem' }}>
-            <span>Selected exhibitions</span>
-            <span className="ic-mono" style={{ fontSize: '0.68rem', opacity: 0.55 }}>2021 – 2025</span>
-          </div>
-          {exhibitions.map((e) => (
-            <div key={e.show} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.55rem 0', borderBottom: '1px solid #d2cbbb', fontSize: '0.85rem' }}>
-              <span>{e.show}</span>
-              <span className="ic-mono" style={{ fontSize: '0.68rem', opacity: 0.55 }}>{e.year}</span>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   )
 }
 
 /* ================================================================== */
-/* 9. Contact                                                          */
+/* 8. Contact                                                           */
 /* ================================================================== */
 export function Contact() {
-  const meta = [
-    { label: 'Prints', value: 'Available on request' },
-    { label: 'Representation', value: 'Unrepresented, direct inquiries' },
-    { label: 'Studio', value: 'By appointment only' },
-  ]
   return (
     <section style={{ padding: '10rem 2rem 14rem', minHeight: '55vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <span className="ic-mono" style={{ opacity: 0.5, fontSize: '0.75rem' }}>03 — Contact</span>
+      <span className="ic-mono" style={{ opacity: 0.5, fontSize: '0.75rem' }}>Contact</span>
       <h2 style={{ fontFamily: 'serif', fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(2rem, 5vw, 3.2rem)', margin: '1rem 0 2rem', maxWidth: '14em' }}>
-        Inquiries and studio visits welcome, by appointment.
+        Get in touch
       </h2>
-      <a href="mailto:studio@iriscalder.work" className="contact-link" style={{ fontFamily: 'serif', fontStyle: 'italic', fontSize: 'clamp(1.3rem, 2.6vw, 1.6rem)', borderBottom: '1px solid #d2cbbb', paddingBottom: '0.3rem', display: 'inline-block', width: 'fit-content', textDecoration: 'none', color: 'inherit' }}>
-        studio@iriscalder.work
+      <a
+        href="mailto:light-work.co.uk@gmail.com"
+        className="contact-link"
+        style={{ fontFamily: 'serif', fontStyle: 'italic', fontSize: 'clamp(1.2rem, 2.4vw, 1.5rem)', borderBottom: '1px solid #d2cbbb', paddingBottom: '0.3rem', display: 'inline-block', width: 'fit-content', textDecoration: 'none', color: 'inherit' }}
+      >
+        light-work.co.uk@gmail.com
       </a>
-      <div style={{ marginTop: '3rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' }}>
-        {meta.map((m) => (
-          <div key={m.label}>
-            <span className="ic-mono" style={{ display: 'block', fontSize: '0.66rem', opacity: 0.55, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>
-              {m.label}
-            </span>
-            <span style={{ fontSize: '0.9rem' }}>{m.value}</span>
-          </div>
-        ))}
+      <div style={{ marginTop: '3rem' }}>
+        <span className="ic-mono" style={{ display: 'block', fontSize: '0.66rem', opacity: 0.55, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>
+          Prints
+        </span>
+        <span style={{ fontSize: '0.9rem' }}>Available on request</span>
       </div>
     </section>
   )
