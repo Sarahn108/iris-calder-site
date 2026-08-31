@@ -159,14 +159,15 @@ type Section =
   | { kind: 'single'; media: MediaItem; w: string; align: Align; idx: string; cap: string }
   | { kind: 'full'; media: MediaItem; idx: string; cap: string }
   | { kind: 'space'; w: string; align: Align; idx: string; cap: string }
-  | { kind: 'rail'; label: string; items: RailItem[]; caption?: string }
+  | { kind: 'rail'; label: string; items: RailItem[]; caption?: string; tightBottom?: boolean }
   | { kind: 'filmSlot'; label?: string; w?: string; src?: string; poster?: string }
   | { kind: 'mosaic'; items: MediaItem[] }
   | { kind: 'grid'; columns: number; items: MediaItem[]; label?: string }
   | { kind: 'bookSpread'; left: MediaItem; right: MediaItem }
   | { kind: 'contactSheet'; items: MediaItem[] }
   | { kind: 'pdfBook'; cover: string; title: string; href: string }
-  | { kind: 'embed3d'; url: string; label?: string }
+  | { kind: 'embed3d'; url: string; label?: string; w?: string }
+  | { kind: 'text'; paragraphs: string[] }
 
 // Deterministic pseudo-random offset per index, so scattered layouts are stable across renders
 function seeded(i: number, salt: number) {
@@ -174,7 +175,7 @@ function seeded(i: number, salt: number) {
   return x - Math.floor(x)
 }
 
-function SectionBlock({ section }: { section: Section }) {
+function SectionBlock({ section, onImageClick }: { section: Section; onImageClick?: (src: string) => void }) {
   const [ref, inView] = useReveal<HTMLDivElement>()
 
   if (section.kind === 'single') {
@@ -216,7 +217,7 @@ function SectionBlock({ section }: { section: Section }) {
 
   if (section.kind === 'rail') {
     return (
-      <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '100%', alignSelf: 'center' }}>
+      <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '100%', alignSelf: 'center', marginBottom: section.tightBottom ? '1.4rem' : undefined }}>
         <div className="rail-hint">
           <span>{section.label}</span>
           <span className="rline" />
@@ -225,7 +226,9 @@ function SectionBlock({ section }: { section: Section }) {
         <div className="rail">
           {section.items.map((it, i) => (
             <div key={i} className="rail-item" style={{ ['--iw' as any]: it.w }}>
-              <Piece media={it.media} />
+              <div className="rail-item-frame">
+                <Piece media={it.media} fill />
+              </div>
               {it.cap && (
                 <div className="cap">
                   {it.idx} — {it.cap}
@@ -282,7 +285,7 @@ function SectionBlock({ section }: { section: Section }) {
 
   if (section.kind === 'grid') {
     return (
-      <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '100%', alignSelf: 'center' }}>
+      <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '82%', alignSelf: 'center' }}>
         {section.label && (
           <div className="rail-hint">
             <span>{section.label}</span>
@@ -291,7 +294,12 @@ function SectionBlock({ section }: { section: Section }) {
         )}
         <div className="clean-grid" style={{ ['--cols' as any]: section.columns }}>
           {section.items.map((m, i) => (
-            <div key={i} className="clean-grid-item">
+            <div
+              key={i}
+              className="clean-grid-item"
+              style={m.type === 'photo' ? { cursor: 'pointer' } : undefined}
+              onClick={m.type === 'photo' ? () => onImageClick?.(m.src) : undefined}
+            >
               <Piece media={m} fill />
             </div>
           ))}
@@ -331,6 +339,18 @@ function SectionBlock({ section }: { section: Section }) {
     )
   }
 
+  if (section.kind === 'text') {
+    return (
+      <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '640px', maxWidth: '100%', alignSelf: 'center' }}>
+        {section.paragraphs.map((p, i) => (
+          <p key={i} style={{ fontSize: '1.02rem', lineHeight: 1.65, opacity: 0.85, margin: '0 0 1rem' }}>
+            {p}
+          </p>
+        ))}
+      </div>
+    )
+  }
+
   if (section.kind === 'pdfBook') {
     return (
       <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '420px', maxWidth: '100%', alignSelf: 'center' }}>
@@ -347,16 +367,17 @@ function SectionBlock({ section }: { section: Section }) {
 
   // embed3d
   return (
-    <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '100%', alignSelf: 'center' }}>
-      <div className="embed-3d-wrap">
+    <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '100%', alignSelf: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div className="embed-3d-wrap" style={{ ['--ew' as any]: section.w ?? '100%' }}>
         <iframe
           src={section.url}
           className="embed-3d"
           allow="fullscreen; xr-spatial-tracking"
           title={section.label ?? '3D capture'}
         />
+        <div className="embed-3d-cover" />
       </div>
-      {section.label && <div className="rail-caption ic-mono">{section.label}</div>}
+      {section.label && <div className="rail-caption ic-mono" style={{ textAlign: 'center' }}>{section.label}</div>}
     </div>
   )
 }
@@ -387,6 +408,13 @@ const spellbindGrid: MediaItem[] = Array.from({ length: 15 }, (_, i) => ({
   alt: `Spellbind — study ${i + 1}`,
 }))
 
+const spellbindStudies: RailItem[] = Array.from({ length: 6 }, (_, i) => ({
+  media: { type: 'photo' as const, src: `/images/spellbind-studies-${i + 1}.jpg`, alt: `Spellbind — study ${i + 1}`, color: true },
+  w: '26vw',
+  idx: `${i + 1}`,
+  cap: '',
+}))
+
 const spellbindGrid2: MediaItem[] = Array.from({ length: 4 }, (_, i) => ({
   type: 'photo' as const,
   src: `/images/spellbind-grid2-${i + 1}.jpg`,
@@ -411,16 +439,19 @@ export const projects: Project[] = [
       'Fleeting moments of light and shadow briefly transform the everyday. Through photography, thread and moving image, ephemeral encounters unfold into material and spatial forms, inviting renewed attention to the extraordinary within the ordinary.',
     sections: [
       { kind: 'rail', label: '01 — Scroll', items: railOf('spellbind-scroll', 12, '44vw') },
-      { kind: 'filmSlot', w: '48%', src: '/video/spellbind-film.mp4', label: 'Spellbind — 2026' },
+      {
+        kind: 'filmSlot',
+        w: '48%',
+        src: '/video/spellbind-film.mp4',
+        label: 'Moving Image — Tracing Light (Transience)',
+      },
       { kind: 'grid', columns: 5, items: spellbindGrid },
       {
-        kind: 'rail',
-        label: '02 — Spellbind Installation',
-        items: railOf('spellbind-studies', 6, '26vw'),
-        caption: 'Tracing Light: Studies I–IV — digital photographs & thread',
+        kind: 'embed3d',
+        url: 'https://lumalabs.ai/embed/A16D3019-752A-4C91-852D-E1D3439C689D?mode=sparkles&background=%23ECE8DF&color=%23262622&showTitle=false&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&showMenu=false',
+        label: '3D view of Spellbind, Ambika P3',
+        w: '40%',
       },
-      { kind: 'embed3d', url: 'https://lumalabs.ai/embed/A16D3019-752A-4C91-852D-E1D3439C689D?mode=sparkles&background=%23ECE8DF&color=%23262622&showTitle=false&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&showMenu=false', label: 'Explore the installation in 3D' },
-      { kind: 'grid', columns: 4, items: spellbindGrid2, label: '03 — More to follow' },
     ],
   },
   {
@@ -429,7 +460,16 @@ export const projects: Project[] = [
     title: 'Tracing Light',
     blurb:
       "Tracing Light is an ongoing body of work exploring the behaviour of light and shadow in relation to space, time and transience. Through photography, print, installation and moving image, the work attends to fleeting moments of illumination within ordinary environments, where light's passage briefly transforms perception and draws attention to the temporal nature of the everyday.\n\nBy extending the photographic image beyond representation into material and spatial forms, the work invites slower, more attentive ways of seeing.",
-    sections: [{ kind: 'rail', label: '01 — Scroll', items: railOf('tracing-light-scroll', 7, '42vw') }],
+    sections: [
+      { kind: 'rail', label: '01 — Scroll', items: railOf('tracing-light-scroll', 7, '42vw') },
+      {
+        kind: 'rail',
+        label: '02 — Studies',
+        items: spellbindStudies,
+        caption: 'Tracing Light: Studies I–IV — digital photographs & thread',
+      },
+      { kind: 'grid', columns: 4, items: spellbindGrid2, label: '03 — More to follow' },
+    ],
   },
   {
     id: 'kings-cross-storeys',
@@ -442,24 +482,39 @@ export const projects: Project[] = [
     id: 'many-hands-make',
     no: 'P.04',
     title: 'Many Hands Make',
-    blurb: '',
+    blurb:
+      'Many Hands Make documents the Hampstead Gown Factory, a volunteer-led project established during the first wave of the COVID-19 pandemic to produce surgical gowns for frontline workers at the Royal Free Hospital. Working as a volunteer in the Sewing Room, I photographed the people, their hands and the many swift, transitory processes involved in making and completing the gowns.',
     sections: [
       {
-        kind: 'bookSpread',
-        left: { type: 'photo', src: '/images/mhm-page-1.jpg', alt: 'Many Hands Make — page 1', color: true },
-        right: { type: 'photo', src: '/images/mhm-page-2.jpg', alt: 'Many Hands Make — page 2', color: true },
+        kind: 'rail',
+        label: '01 — Scroll',
+        tightBottom: true,
+        items: Array.from({ length: 12 }, (_, i) => ({
+          media: { type: 'photo' as const, src: `/images/mhm-scroll-${i + 1}.jpg`, alt: `Many Hands Make — photo ${i + 1}`, color: true },
+          w: '38vw',
+          idx: `${i + 1}`,
+          cap: '',
+        })),
       },
-      {
-        kind: 'bookSpread',
-        left: { type: 'photo', src: '/images/mhm-page-3.jpg', alt: 'Many Hands Make — page 3', color: true },
-        right: { type: 'photo', src: '/images/mhm-page-4.jpg', alt: 'Many Hands Make — page 4', color: true },
-      },
-      { kind: 'filmSlot', label: 'Scrollable images — to follow' },
       {
         kind: 'pdfBook',
         cover: '/images/mhm-book-cover.jpg',
-        title: 'The Hampstead Gown Factory — a book by Adam Brown & Sarah Nicholl',
+        title: 'The Hampstead Gown Factory',
         href: '/pdf/hampstead-gown-factory.pdf',
+      },
+      {
+        kind: 'text',
+        paragraphs: [
+          'More than 600 volunteers came together between May and August 2020, working across the Sewing, Cutting and Finishing Rooms. Over four months, the Hampstead Gown Factory produced more than 50,000 medical-grade surgical gowns. The resulting publication was designed by Adam Brown and created as a collaboration between Adam and myself, celebrating the project and some of the many volunteers involved.',
+        ],
+      },
+      {
+        kind: 'grid',
+        columns: 5,
+        items: [
+          ...Array.from({ length: 26 }, (_, i) => ({ type: 'photo' as const, src: `/images/mhm-other-${i + 1}.jpg`, alt: `Many Hands Make — thumbnail`, color: true })),
+          ...Array.from({ length: 12 }, (_, i) => ({ type: 'photo' as const, src: `/images/mhm-scroll-${i + 1}.jpg`, alt: `Many Hands Make — thumbnail`, color: true })),
+        ],
       },
     ],
   },
@@ -470,10 +525,14 @@ export const projects: Project[] = [
 /* ================================================================== */
 export function Projects({ projectId }: { projectId?: string }) {
   const active = projects.find((p) => p.id === projectId) ?? projects[0]
+  const [lightbox, setLightbox] = useState<string | null>(null)
 
   return (
     <section className="proj-page">
-      <div className="ic-section-head">
+      <div className="ic-section-head" style={{ position: 'relative' }}>
+        <div className="emblem-mini">
+          <img src="/images/about-emblem-circle.jpg" alt="" />
+        </div>
         <span className="ic-mono" style={{ opacity: 0.5 }}>
           {active.no} — Selected work
         </span>
@@ -497,9 +556,15 @@ export function Projects({ projectId }: { projectId?: string }) {
 
       <div className="proj-flow">
         {active.sections.map((section, i) => (
-          <SectionBlock key={`${active.id}-${i}`} section={section} />
+          <SectionBlock key={`${active.id}-${i}`} section={section} onImageClick={setLightbox} />
         ))}
       </div>
+
+      {lightbox && (
+        <div className="lightbox" onClick={() => setLightbox(null)}>
+          <img src={lightbox} alt="" />
+        </div>
+      )}
     </section>
   )
 }
@@ -520,8 +585,8 @@ export function About() {
 
   return (
     <section className="about-page">
-      <div className="piece-photo about-emblem">
-        <img src="/images/about-emblem.jpg" alt="Rainbow of light cast across a wall by a light switch" loading="lazy" style={{ width: '100%', display: 'block', filter: 'none' }} />
+      <div className="about-emblem-circle">
+        <img src="/images/about-emblem-circle.jpg" alt="Rainbow of light cast across a wall by a light switch" loading="lazy" />
       </div>
 
       <div className="about-body">
@@ -567,7 +632,10 @@ export function About() {
 /* ================================================================== */
 export function Contact() {
   return (
-    <section className="contact-page">
+    <section className="contact-page" style={{ position: 'relative' }}>
+      <div className="emblem-mini">
+        <img src="/images/about-emblem-circle.jpg" alt="" />
+      </div>
       <span className="ic-mono" style={{ opacity: 0.5, fontSize: '0.75rem' }}>Contact</span>
       <h2 className="contact-h2">Get in touch</h2>
       <a href="mailto:light-work.co.uk@gmail.com" className="contact-link">
