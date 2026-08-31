@@ -442,7 +442,7 @@ export const projects: Project[] = [
       {
         kind: 'filmSlot',
         w: '48%',
-        src: '/video/spellbind-film.mp4',
+        src: 'https://pjwemmcglseefc9a.public.blob.vercel-storage.com/spellbind-film.mp4',
         label: 'Moving Image — Tracing Light (Transience)',
       },
       { kind: 'grid', columns: 5, items: spellbindGrid },
