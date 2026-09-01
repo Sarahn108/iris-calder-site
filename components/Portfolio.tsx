@@ -402,11 +402,31 @@ const railOf = (prefix: string, count: number, w: string): RailItem[] =>
     cap: '',
   }))
 
-const spellbindGrid: MediaItem[] = Array.from({ length: 15 }, (_, i) => ({
-  type: 'photo' as const,
-  src: `/images/spellbind-grid-${i + 1}.jpg`,
-  alt: `Spellbind — study ${i + 1}`,
-}))
+const spellbindGrid: MediaItem[] = [
+  ...Array.from({ length: 15 }, (_, i) => ({
+    type: 'photo' as const,
+    src: `/images/spellbind-grid-${i + 1}.jpg`,
+    alt: `Spellbind — study ${i + 1}`,
+  })),
+  ...Array.from({ length: 5 }, (_, i) => ({
+    type: 'photo' as const,
+    src: `/images/spellbind-grid-new${i + 1}.jpg`,
+    alt: `Spellbind — study`,
+  })),
+]
+
+// Scroll: original items 3–12, then the two moved-to-end items (1 & 2), with a new photo leading the whole rail
+const spellbindScroll: RailItem[] = [
+  { media: { type: 'photo', src: '/images/spellbind-scroll-new1.jpg', alt: 'Spellbind — scroll' }, w: '44vw', idx: '1', cap: '' },
+  ...Array.from({ length: 10 }, (_, i) => ({
+    media: { type: 'photo' as const, src: `/images/spellbind-scroll-${i + 3}.jpg`, alt: `Spellbind — scroll ${i + 3}` },
+    w: '44vw',
+    idx: `${i + 2}`,
+    cap: '',
+  })),
+  { media: { type: 'photo', src: '/images/spellbind-scroll-1.jpg', alt: 'Spellbind — scroll 1' }, w: '44vw', idx: '12', cap: '' },
+  { media: { type: 'photo', src: '/images/spellbind-scroll-2.jpg', alt: 'Spellbind — scroll 2' }, w: '44vw', idx: '13', cap: '' },
+]
 
 const spellbindStudies: RailItem[] = Array.from({ length: 6 }, (_, i) => ({
   media: { type: 'photo' as const, src: `/images/spellbind-studies-${i + 1}.jpg`, alt: `Spellbind — study ${i + 1}`, color: true },
@@ -438,11 +458,11 @@ export const projects: Project[] = [
     blurb:
       'Fleeting moments of light and shadow briefly transform the everyday. Through photography, thread and moving image, ephemeral encounters unfold into material and spatial forms, inviting renewed attention to the extraordinary within the ordinary.',
     sections: [
-      { kind: 'rail', label: '01 — Scroll', items: railOf('spellbind-scroll', 12, '44vw') },
+      { kind: 'rail', label: '01 — Scroll', items: spellbindScroll },
       {
         kind: 'filmSlot',
         w: '48%',
-        src: 'https://pjwemmcglseefc9a.public.blob.vercel-storage.com/spellbind-film.mp4',
+        src: '/video/spellbind-film.mp4',
         label: 'Moving Image — Tracing Light (Transience)',
       },
       { kind: 'grid', columns: 5, items: spellbindGrid },
@@ -461,13 +481,7 @@ export const projects: Project[] = [
     blurb:
       "Tracing Light is an ongoing body of work exploring the behaviour of light and shadow in relation to space, time and transience. Through photography, print, installation and moving image, the work attends to fleeting moments of illumination within ordinary environments, where light's passage briefly transforms perception and draws attention to the temporal nature of the everyday.\n\nBy extending the photographic image beyond representation into material and spatial forms, the work invites slower, more attentive ways of seeing.",
     sections: [
-      { kind: 'rail', label: '01 — Scroll', items: railOf('tracing-light-scroll', 7, '42vw') },
-      {
-        kind: 'rail',
-        label: '02 — Studies',
-        items: spellbindStudies,
-        caption: 'Tracing Light: Studies I–IV — digital photographs & thread',
-      },
+      { kind: 'rail', label: '01 — Scroll', items: [...spellbindStudies, ...railOf('tracing-light-scroll', 7, '42vw')] },
       { kind: 'grid', columns: 4, items: spellbindGrid2, label: '03 — More to follow' },
     ],
   },
@@ -476,7 +490,10 @@ export const projects: Project[] = [
     no: 'P.03',
     title: "King's Cross Storeys",
     blurb: '',
-    sections: [{ kind: 'rail', label: '01 — Scroll', items: kingsCrossScroll }],
+    sections: [
+      { kind: 'rail', label: '01 — Scroll', items: kingsCrossScroll },
+      { kind: 'text', paragraphs: ['Work in progress.'] },
+    ],
   },
   {
     id: 'many-hands-make',
@@ -489,10 +506,10 @@ export const projects: Project[] = [
         kind: 'rail',
         label: '01 — Scroll',
         tightBottom: true,
-        items: Array.from({ length: 12 }, (_, i) => ({
-          media: { type: 'photo' as const, src: `/images/mhm-scroll-${i + 1}.jpg`, alt: `Many Hands Make — photo ${i + 1}`, color: true },
+        items: [1, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((n) => ({
+          media: { type: 'photo' as const, src: `/images/mhm-scroll-${n}.jpg`, alt: `Many Hands Make — photo ${n}`, color: true },
           w: '38vw',
-          idx: `${i + 1}`,
+          idx: `${n}`,
           cap: '',
         })),
       },
@@ -632,8 +649,8 @@ export function About() {
 /* ================================================================== */
 export function Contact() {
   return (
-    <section className="contact-page" style={{ position: 'relative' }}>
-      <div className="emblem-mini">
+    <section className="contact-page">
+      <div className="about-emblem-circle" style={{ marginBottom: '1.5rem' }}>
         <img src="/images/about-emblem-circle.jpg" alt="" />
       </div>
       <span className="ic-mono" style={{ opacity: 0.5, fontSize: '0.75rem' }}>Contact</span>
