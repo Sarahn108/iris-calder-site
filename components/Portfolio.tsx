@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 /* ================================================================== */
-/* Legacy Component Backwards Compatibility Export Blocks              */
+/* 1. Global Navigation Mapping Links                                 */
 /* ================================================================== */
 export const About = () => (
   <section style={{ maxWidth: '42ch', margin: '4rem auto 0 auto', padding: '0 1rem' }}>
@@ -26,7 +26,7 @@ export const projects = [
 ]
 
 /* ================================================================== */
-/* 1. Home View                                                       */
+/* 2. Home Landing Frame View                                         */
 /* ================================================================== */
 export function Home({ go }: { go: (p: string) => void }) {
   const words = ['Photography', 'Drawing', 'Sculpture', 'Film']
@@ -64,7 +64,7 @@ export function Home({ go }: { go: (p: string) => void }) {
 }
 
 /* ================================================================== */
-/* 2. Media elements parsing layers                                   */
+/* 3. Media elements parsing layers                                   */
 /* ================================================================== */
 type MediaItem =
   | { type: 'photo'; src: string; alt: string; color?: boolean }
@@ -103,7 +103,7 @@ const DRAWINGS: Record<Extract<MediaItem, { type: 'drawing' }>['variant'], JSX.E
     <svg viewBox="0 0 300 380" fill="none" style={{ width: '100%', height: 'auto', background: 'var(--paper-matted)' }}>
       <path d="M20 360 H90 V310 H160 V260 H230 V210 H280" stroke="#262622" strokeWidth={1.1} />
       <path d="M20 360 L20 40" stroke="#262622" strokeWidth={0.7} opacity={0.6} />
-      <path d="M40 60 C 90 30, 150 20, 200 10" stroke="#9C7C4F" strokeWidth={1} opacity={0.6} />
+      <path d="M40 60 C 90 30, 150 20, 200 10" stroke="#9C7C4F" strokeWidth={1} opacity={0.65} />
       <path d="M110 340 C 130 300, 160 280, 210 250" stroke="#262622" strokeWidth={0.5} opacity={0.35} />
     </svg>
   ),
@@ -147,7 +147,7 @@ function Piece({ media, fill }: { media: MediaItem; fill?: boolean }) {
 }
 
 /* ================================================================== */
-/* 3. Reveal-on-scroll logic hook                                     */
+/* 4. Scroll Animation Trigger Mechanics                              */
 /* ================================================================== */
 function useReveal<T extends HTMLElement>() {
   const ref = useRef<T | null>(null)
