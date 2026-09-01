@@ -2,9 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-/* ================================================================== */
-/* 1. Global Navigation Mapping Links                                 */
-/* ================================================================== */
 export const About = () => (
   <section style={{ maxWidth: '42ch', margin: '4rem auto 0 auto', padding: '0 1rem' }}>
     <h2 className="ic-mono" style={{ fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>About</h2>
@@ -20,14 +17,11 @@ export const Contact = () => (
 )
 
 export const projects = [
-  { id: 'traces-of-light', slug: 'traces-of-light', no: '01', title: 'Traces of Light' },
-  { id: 'spellbind', slug: 'spellbind', no: '02', title: 'Spellbind' },
-  { id: 'rooms-after', slug: 'rooms-after', no: '03', title: 'Rooms After' }
+  { id: 'traces-of-light', no: '01', title: 'Traces of Light' },
+  { id: 'spellbind', no: '02', title: 'Spellbind' },
+  { id: 'rooms-after', no: '03', title: 'Rooms After' }
 ]
 
-/* ================================================================== */
-/* 2. Home Landing Frame View                                         */
-/* ================================================================== */
 export function Home({ go }: { go: (p: string) => void }) {
   const words = ['Photography', 'Drawing', 'Sculpture', 'Film']
   return (
@@ -63,9 +57,6 @@ export function Home({ go }: { go: (p: string) => void }) {
   )
 }
 
-/* ================================================================== */
-/* 3. Media elements parsing layers                                   */
-/* ================================================================== */
 type MediaItem =
   | { type: 'photo'; src: string; alt: string; color?: boolean }
 
@@ -146,9 +137,6 @@ function Piece({ media, fill }: { media: MediaItem; fill?: boolean }) {
   return <Film media={media} />
 }
 
-/* ================================================================== */
-/* 4. Scroll Animation Trigger Mechanics                              */
-/* ================================================================== */
 function useReveal<T extends HTMLElement>() {
   const ref = useRef<T | null>(null)
   const [inView, setInView] = useState(false)
@@ -169,3 +157,22 @@ function useReveal<T extends HTMLElement>() {
     io.observe(el)
     return () => io.disconnect()
   }, [])
+  return [ref, inView] as const
+}
+
+type Align = 'left' | 'right' | 'center'
+type RailItem = { media: MediaItem; w: string; idx: string; cap: string }
+
+type Section =
+  | { kind: 'single'; media: MediaItem; w: string; align: Align; idx: string; cap: string }
+  | { kind: 'full'; media: MediaItem; idx: string; cap: string }
+  | { kind: 'space'; w: string; align: Align; idx: string; cap: string }
+  | { kind: 'rail'; label: string; items: RailItem[]; caption?: string; tightBottom?: boolean }
+  | { kind: 'grid'; columns: number; items: MediaItem[]; label?: string }
+  | { kind: 'text'; paragraphs: string[] }
+
+function SectionBlock({ section }: { section: Section }) {
+  const [ref, inView] = useReveal<HTMLDivElement>()
+
+  if (section.kind === 'single') {
+    return (
