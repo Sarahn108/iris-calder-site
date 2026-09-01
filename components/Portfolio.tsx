@@ -37,7 +37,7 @@ export function Home({ go }: { go: (p: string) => void }) {
 
       <div className="ic-hero-media" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div className="piece-photo" style={{ width: '100%', maxHeight: '70vh', overflow: 'hidden' }}>
-          <img src="/images/spellbind-scroll-1.jpg" alt="Light tracing across train tracks at night" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          <img src="/images/image_I8iUdA.png" alt="Light tracing shadow lines artwork" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
         </div>
       </div>
     </section>
@@ -174,6 +174,4 @@ function SectionBlock({ section }: { section: Section }) {
   if (section.kind === 'single') {
     return (
       <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: section.w, alignSelf: section.align === 'left' ? 'flex-start' : section.align === 'right' ? 'flex-end' : 'center', display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '8rem', transition: 'opacity 0.8s ease, transform 0.8s ease', opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
-        <Piece media={section.media}
-          />
-        
+        <Piece media={section.media} />
