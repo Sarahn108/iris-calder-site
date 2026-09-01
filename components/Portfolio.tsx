@@ -3,12 +3,35 @@
 import { useEffect, useRef, useState } from 'react'
 
 /* ================================================================== */
+/* Legacy Component Backwards Compatibility Export Blocks              */
+/* ================================================================== */
+export const About = () => (
+  <section style={{ maxWidth: '42ch', margin: '4rem auto 0 auto', padding: '0 1rem' }}>
+    <h2 className="ic-mono" style={{ fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>About</h2>
+    <p style={{ fontSize: '1.05rem', lineHeight: 1.6, fontWeight: 300, opacity: 0.85 }}>Sarah Nicholl is a photographer whose work explores the ephemeral interactions of cast illumination and physical boundaries inside active installations.</p>
+  </section>
+)
+
+export const Contact = () => (
+  <section style={{ maxWidth: '42ch', margin: '4rem auto 0 auto', padding: '0 1rem' }}>
+    <h2 className="ic-mono" style={{ fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>Contact</h2>
+    <p style={{ fontSize: '1.05rem', lineHeight: 1.6, fontWeight: 300, opacity: 0.85 }}>For custom prints, documentation inquiries, or gallery placement portfolios, contact directly via: <a href="mailto:info@light-work.co.uk" style={{ borderBottom: '1px solid var(--ink)' }}>info@light-work.co.uk</a></p>
+  </section>
+)
+
+export const projects = [
+  { id: 'traces-of-light', slug: 'traces-of-light', no: '01', title: 'Traces of Light' },
+  { id: 'spellbind', slug: 'spellbind', no: '02', title: 'Spellbind' },
+  { id: 'rooms-after', slug: 'rooms-after', no: '03', title: 'Rooms After' }
+]
+
+/* ================================================================== */
 /* 1. Home View                                                       */
 /* ================================================================== */
 export function Home({ go }: { go: (p: string) => void }) {
   const words = ['Photography', 'Drawing', 'Sculpture', 'Film']
   return (
-    <section className="ic-hero">
+    <section className="ic-hero" style={{ padding: '0 1rem' }}>
       <div className="ic-hero-copy">
         <p className="ic-mono" style={{ fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '2.5rem' }}>
           {words.map((w, i) => (
@@ -18,24 +41,20 @@ export function Home({ go }: { go: (p: string) => void }) {
             </span>
           ))}
         </p>
-
         <h1 className="ic-hero-h1" style={{ fontSize: 'calc(1.8rem + 1.5vw)', lineHeight: 1.15, fontWeight: 300, letterSpacing: '-0.02em', marginBottom: '3rem', maxWidth: '24ch' }}>
           How fleeting moments of light and shadow briefly transform the everyday
         </h1>
-
         <blockquote style={{ borderLeft: '1px solid var(--ink)', paddingLeft: '1.5rem', margin: '0 0 3.5rem 0', opacity: 0.85 }}>
           <p style={{ fontStyle: 'italic', marginBottom: '0.5rem', fontSize: '1.05rem' }}>&ldquo;All the diversity, all the charm, and all the beauty of life are made up of light and shade.&rdquo;</p>
           <footer className="ic-mono" style={{ fontSize: '0.75rem', opacity: 0.6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>— Leo Tolstoy</footer>
         </blockquote>
-
         <div className="ic-hero-foot">
-          <button type="button" className="ic-mono" style={{ background: 'none', border: 'none', borderBottom: '1px solid var(--ink)', padding: '0 0 0.25rem 0', cursor: 'pointer', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }} onClick={() => go('projects')}>
+          <button type="button" className="ic-mono" style={{ background: 'none', border: 'none', borderBottom: '1px solid var(--ink)', padding: '0 0 0.25rem 0', cursor: 'pointer', fontSize: '0.9rem' }} onClick={() => go('projects')}>
             View projects →
           </button>
         </div>
       </div>
-
-      <div className="ic-hero-media" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="ic-hero-media" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '2rem' }}>
         <div className="piece-photo" style={{ width: '100%', maxHeight: '70vh', overflow: 'hidden' }}>
           <img src="/images/image_I8iUdA.png" alt="Light tracing shadow lines artwork" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
         </div>
@@ -45,7 +64,7 @@ export function Home({ go }: { go: (p: string) => void }) {
 }
 
 /* ================================================================== */
-/* 2. Media pieces — photo / drawing / film                           */
+/* 2. Media elements parsing layers                                   */
 /* ================================================================== */
 type MediaItem =
   | { type: 'photo'; src: string; alt: string; color?: boolean }
@@ -128,7 +147,7 @@ function Piece({ media, fill }: { media: MediaItem; fill?: boolean }) {
 }
 
 /* ================================================================== */
-/* 3. Reveal-on-scroll hook                                           */
+/* 3. Reveal-on-scroll logic hook                                     */
 /* ================================================================== */
 function useReveal<T extends HTMLElement>() {
   const ref = useRef<T | null>(null)
@@ -150,28 +169,3 @@ function useReveal<T extends HTMLElement>() {
     io.observe(el)
     return () => io.disconnect()
   }, [])
-  return [ref, inView] as const
-}
-
-/* ================================================================== */
-/* 4. Section structures                                              */
-/* ================================================================== */
-type Align = 'left' | 'right' | 'center'
-
-type RailItem = { media: MediaItem; w: string; idx: string; cap: string }
-
-type Section =
-  | { kind: 'single'; media: MediaItem; w: string; align: Align; idx: string; cap: string }
-  | { kind: 'full'; media: MediaItem; idx: string; cap: string }
-  | { kind: 'space'; w: string; align: Align; idx: string; cap: string }
-  | { kind: 'rail'; label: string; items: RailItem[]; caption?: string; tightBottom?: boolean }
-  | { kind: 'grid'; columns: number; items: MediaItem[]; label?: string }
-  | { kind: 'text'; paragraphs: string[] }
-
-function SectionBlock({ section }: { section: Section }) {
-  const [ref, inView] = useReveal<HTMLDivElement>()
-
-  if (section.kind === 'single') {
-    return (
-      <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: section.w, alignSelf: section.align === 'left' ? 'flex-start' : section.align === 'right' ? 'flex-end' : 'center', display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '8rem', transition: 'opacity 0.8s ease, transform 0.8s ease', opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
-        <Piece media={section.media} />
