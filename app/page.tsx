@@ -7,7 +7,7 @@ type View = 'home' | 'projects' | 'about' | 'contact'
 
 export default function Page() {
   const [view, setView] = useState<View>('home')
-  const [projectId, setProjectId] = useState<string>(projects[0].id)
+  const [projectId, setProjectId] = useState<string>('traces-of-light')
   const [projectsOpen, setProjectsOpen] = useState(false)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
