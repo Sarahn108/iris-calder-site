@@ -123,7 +123,7 @@ function Drawing({ media }: { media: Extract<MediaItem, { type: 'drawing' }> }) 
 function Film({ media }: { media: Extract<MediaItem, { type: 'film' }> }) {
   return (
     <div className="piece-film" style={{ ['--bx' as any]: media.bx, ['--by' as any]: media.by, width: '100%', aspectRatio: '16/9', position: 'relative', overflow: 'hidden', background: '#0a0a09' }}>
-      <div className="beam" style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at var(--bx) var(--by50))', pointerEvents: 'none' }} />
+      <div className="beam" style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at var(--bx) var(--by), rgba(255,255,240,0.15) 0%, transparent 60%)', pointerEvents: 'none' }} />
       <div className="grain" style={{ position: 'absolute', inset: 0, opacity: 0.04, backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://w3.org\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")', pointerEvents: 'none' }} />
       <div className="scan" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%)', backgroundSize: '100% 4px', zIndex: 2, pointerEvents: 'none', opacity: 0.3 }} />
       <div className="vig" style={{ position: 'absolute', inset: 0, boxShadow: 'inset 0 0 80px rgba(0,0,0,0.8)', pointerEvents: 'none' }} />
@@ -176,4 +176,3 @@ function SectionBlock({ section }: { section: Section }) {
 
   if (section.kind === 'single') {
     return (
-
