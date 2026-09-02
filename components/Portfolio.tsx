@@ -408,16 +408,16 @@ const spellbindGrid: MediaItem[] = [
     src: `/images/spellbind-grid-${i + 1}.jpg`,
     alt: `Spellbind — study ${i + 1}`,
   })),
-  ...Array.from({ length: 5 }, (_, i) => ({
-    type: 'photo' as const,
-    src: `/images/spellbind-grid-new${i + 1}.jpg`,
-    alt: `Spellbind — study`,
-  })),
+  { type: 'photo' as const, src: '/images/2. Spellbind grid.JPG', alt: 'Spellbind — study' },
+  { type: 'photo' as const, src: '/images/3. Spellbind grid.JPG', alt: 'Spellbind — study' },
+  { type: 'photo' as const, src: '/images/4. Spellbind grid.JPG', alt: 'Spellbind — study' },
+  { type: 'photo' as const, src: '/images/5. Spellbind grid.JPG', alt: 'Spellbind — study' },
+  { type: 'photo' as const, src: '/images/6. Spellbind grid.JPG', alt: 'Spellbind — study' } ,
 ]
 
 // Scroll: original items 3–12, then the two moved-to-end items (1 & 2), with a new photo leading the whole rail
 const spellbindScroll: RailItem[] = [
-  { media: { type: 'photo', src: '/images/spellbind-scroll-new1.jpg', alt: 'Spellbind — scroll' }, w: '44vw', idx: '1', cap: '' },
+  { media: { type: 'photo', src: '/images/1. Spellbind scroll.JPG', alt: 'Spellbind — scroll' }, w: '44vw', idx: '1', cap: '' },
   ...Array.from({ length: 10 }, (_, i) => ({
     media: { type: 'photo' as const, src: `/images/spellbind-scroll-${i + 3}.jpg`, alt: `Spellbind — scroll ${i + 3}` },
     w: '44vw',
@@ -484,7 +484,16 @@ export const projects: Project[] = [
       // The seven Tracing Light images form the main scroll. The five images
       // that had been sitting below the maquette studies are now returned here,
       // while the maquette images remain as their own smaller scroll.
-      { kind: 'rail', label: '01 — Scroll', items: railOf('tracing-light-scroll', 7, '42vw') },
+      {
+        kind: 'rail',
+        label: '01 — Scroll',
+        items: [3, 4, 5, 6, 7, 1, 2].map((n, i) => ({
+          media: { type: 'photo' as const, src: `/images/tracing-light-scroll-${n}.jpg`, alt: `Tracing Light — scroll ${n}` },
+          w: '42vw',
+          idx: `${i + 1}`,
+          cap: '',
+        })),
+      },
       { kind: 'rail', label: 'Tracing Light: Studies I-VI', items: spellbindStudies },
       {
         kind: 'text',
