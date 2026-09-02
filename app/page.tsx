@@ -7,7 +7,7 @@ type View = 'home' | 'projects' | 'about' | 'contact'
 
 export default function Page() {
   const [view, setView] = useState<View>('home')
-  const [projectId, setProjectId] = useState<string>('traces-of-light')
+  const [projectId, setProjectId] = useState<string>(projects[0].id)
   const [projectsOpen, setProjectsOpen] = useState(false)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
@@ -32,18 +32,18 @@ export default function Page() {
               <>
                 <div onClick={() => setProjectsOpen(false)} className="nav-dd-backdrop" />
                 <div className="nav-dd-panel">
-                  {Array.isArray(projects) && projects.map((p: any) => (
+                  {projects.map((p) => (
                     <button
-                      key={p.id || p.slug}
+                      key={p.id}
                       onClick={() => {
-                        setProjectId(p.id || p.slug)
+                        setProjectId(p.id)
                         setView('projects')
                         setProjectsOpen(false)
                         setMobileNavOpen(false)
                       }}
-                      className={`nav-dd-opt ${(p.id || p.slug) === projectId && view === 'projects' ? 'active' : ''}`}
+                      className={`nav-dd-opt ${p.id === projectId && view === 'projects' ? 'active' : ''}`}
                     >
-                      <span className="no">{p.no || '•'}</span>
+                      <span className="no">{p.no}</span>
                       <span className="t">{p.title}</span>
                     </button>
                   ))}
@@ -65,6 +65,19 @@ export default function Page() {
       {view === 'projects' && <Projects projectId={projectId} />}
       {view === 'about' && <About />}
       {view === 'contact' && <Contact />}
+
+      <footer
+        className="ic-mono"
+        style={{
+          padding: '3rem 2rem 2rem',
+          textAlign: 'center',
+          fontSize: '0.7rem',
+          letterSpacing: '0.04em',
+          opacity: 0.65,
+        }}
+      >
+        © Sarah Nicholl 2026. All images and works © Sarah Nicholl.
+      </footer>
     </main>
   )
 }
