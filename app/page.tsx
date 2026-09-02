@@ -7,7 +7,7 @@ type View = 'home' | 'projects' | 'about' | 'contact'
 
 export default function Page() {
   const [view, setView] = useState<View>('home')
-  const [projectId, setProjectId] = useState<string>(projects[0].id)
+  const [projectId, setProjectId] = useState<string>('traces-of-light')
   const [projectsOpen, setProjectsOpen] = useState(false)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
@@ -32,18 +32,18 @@ export default function Page() {
               <>
                 <div onClick={() => setProjectsOpen(false)} className="nav-dd-backdrop" />
                 <div className="nav-dd-panel">
-                  {projects.map((p) => (
+                  {Array.isArray(projects) && projects.map((p: any) => (
                     <button
-                      key={p.id}
+                      key={p.id || p.slug}
                       onClick={() => {
-                        setProjectId(p.id)
+                        setProjectId(p.id || p.slug)
                         setView('projects')
                         setProjectsOpen(false)
                         setMobileNavOpen(false)
                       }}
-                      className={`nav-dd-opt ${p.id === projectId && view === 'projects' ? 'active' : ''}`}
+                      className={`nav-dd-opt ${(p.id || p.slug) === projectId && view === 'projects' ? 'active' : ''}`}
                     >
-                      <span className="no">{p.no}</span>
+                      <span className="no">{p.no || '•'}</span>
                       <span className="t">{p.title}</span>
                     </button>
                   ))}
