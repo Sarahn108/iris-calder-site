@@ -456,7 +456,7 @@ export const projects: Project[] = [
     title: 'Spellbind',
     meta: 'Public exhibition · Ambika P3, University of Westminster · 2026',
     blurb:
-      'Spellbind was presented as part of the MA Expanded Photography Group Show -  25 June - 2 July 2026 at Ambika P3. The exhibition brought together photography, thread and moving image.\n\nFleeting moments of light and shadow briefly transform the everyday. Through photography, thread and moving image, ephemeral encounters unfold into material and spatial forms, inviting renewed attention to the extraordinary within the ordinary.',
+      'Spellbind was presented as part of the group show The Passage, which took place at Ambika P3. It brought together photography, thread and moving image.\n\nFleeting moments of light and shadow briefly transform the everyday. Through photography, thread and moving image, ephemeral encounters unfold into material and spatial forms, inviting renewed attention to the extraordinary within the ordinary.',
     sections: [
       { kind: 'rail', label: '01 — Scroll', items: spellbindScroll },
       {
@@ -501,7 +501,7 @@ export const projects: Project[] = [
           'By extending the photographic image beyond representation into material and spatial forms, the work invites slower, more attentive ways of seeing.',
         ],
       },
-      { kind: 'grid', columns: 4, items: spellbindGrid2, label: '03 — More to follow' },
+      { kind: 'grid', columns: 4, items: spellbindGrid2, label: '03 — Further works from Tracing Light' },
     ],
   },
   {
