@@ -229,7 +229,9 @@ function SectionBlock({ section, onImageClick }: { section: Section; onImageClic
               <div
                 className="rail-item-frame"
                 style={it.media.type === 'photo' ? { cursor: 'pointer' } : undefined}
-                onClick={it.media.type === 'photo' ? () => onImageClick?.(it.media.src) : undefined}
+                onClick={() => {
+  if (it.media.type === 'photo') onImageClick?.(it.media.src)
+}}
               >
                 <Piece media={it.media} fill contain />
               </div>
