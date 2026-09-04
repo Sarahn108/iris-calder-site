@@ -226,15 +226,20 @@ function SectionBlock({ section, onImageClick }: { section: Section; onImageClic
         <div className="rail">
           {section.items.map((it, i) => (
             <div key={i} className="rail-item" style={{ ['--iw' as any]: it.w }}>
-              <div
-                className="rail-item-frame"
-                style={it.media.type === 'photo' ? { cursor: 'pointer' } : undefined}
-                onClick={() => {
-  if (it.media.type === 'photo') onImageClick?.(it.media.src)
-}}
-              >
-                <Piece media={it.media} fill contain />
-              </div>
+              {(() => {
+                const photoSrc = it.media.type === 'photo' ? it.media.src : undefined
+                return (
+                  <div
+                    className="rail-item-frame"
+                    style={photoSrc ? { cursor: 'pointer' } : undefined}
+                    onClick={() => {
+                      if (photoSrc) onImageClick?.(photoSrc)
+                    }}
+                      >
+                    <Piece media={it.media} fill contain />
+                  </div>
+                )
+              })()}
               {it.cap && (
                 <div className="cap">
                   {it.idx} — {it.cap}
