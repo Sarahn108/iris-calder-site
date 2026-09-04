@@ -50,7 +50,7 @@ type MediaItem =
   | { type: 'drawing'; variant: 'window' | 'stair' | 'figure' | 'curtain' }
   | { type: 'film'; bx: string; by: string }
 
-function Photo({ media, fill = false }: { media: Extract<MediaItem, { type: 'photo' }>; fill?: boolean }) {
+function Photo({ media, fill = false, contain = false }: { media: Extract<MediaItem, { type: 'photo' }>; fill?: boolean; contain?: boolean }) {
   return (
     <div className="piece-photo" style={fill ? { width: '100%', height: '100%' } : undefined}>
       <img
@@ -58,7 +58,7 @@ function Photo({ media, fill = false }: { media: Extract<MediaItem, { type: 'pho
         alt={media.alt}
         loading="lazy"
         style={{
-          ...(fill ? { width: '100%', height: '100%', objectFit: 'cover' as const, display: 'block' } : {}),
+          ...(fill ? { width: '100%', height: '100%', objectFit: contain ? 'contain' as const : 'cover' as const, display: 'block' } : {}),
           ...(media.color ? { filter: 'none' } : {}),
         }}
       />
@@ -116,8 +116,8 @@ function Film({ media }: { media: Extract<MediaItem, { type: 'film' }> }) {
   )
 }
 
-function Piece({ media, fill }: { media: MediaItem; fill?: boolean }) {
-  if (media.type === 'photo') return <Photo media={media} fill={fill} />
+function Piece({ media, fill, contain }: { media: MediaItem; fill?: boolean; contain?: boolean }) {
+  if (media.type === 'photo') return <Photo media={media} fill={fill} contain={contain} />
   if (media.type === 'drawing') return <Drawing media={media} />
   return <Film media={media} />
 }
@@ -226,9 +226,20 @@ function SectionBlock({ section, onImageClick }: { section: Section; onImageClic
         <div className="rail">
           {section.items.map((it, i) => (
             <div key={i} className="rail-item" style={{ ['--iw' as any]: it.w }}>
-              <div className="rail-item-frame">
-                <Piece media={it.media} fill />
-              </div>
+              {(() => {
+                const photoSrc = it.media.type === 'photo' ? it.media.src : undefined
+                return (
+                  <div
+                    className="rail-item-frame"
+                    style={photoSrc ? { cursor: 'pointer' } : undefined}
+                    onClick={() => {
+                      if (photoSrc) onImageClick?.(photoSrc)
+                    }}
+                      >
+                    <Piece media={it.media} fill contain />
+                  </div>
+                )
+              })()}
               {it.cap && (
                 <div className="cap">
                   {it.idx} — {it.cap}
@@ -442,7 +453,7 @@ const spellbindGrid2: MediaItem[] = Array.from({ length: 4 }, (_, i) => ({
   color: i === 1, // the red-lit window frame is a genuine colour shot
 }))
 
-const kingsCrossScroll: RailItem[] = Array.from({ length: 6 }, (_, i) => ({
+const kingsCrossScroll: RailItem[] = Array.from({ length: 15 }, (_, i) => ({
   media: { type: 'photo' as const, src: `/images/kings-cross-scroll-${i + 1}.jpg`, alt: `King's Cross Storeys — study ${i + 1}`, color: true },
   w: '42vw',
   idx: `${i + 1}`,
@@ -487,12 +498,16 @@ export const projects: Project[] = [
       {
         kind: 'rail',
         label: '01 — Scroll',
-        items: [3, 4, 5, 6, 7, 1, 2].map((n, i) => ({
-          media: { type: 'photo' as const, src: `/images/tracing-light-scroll-${n}.jpg`, alt: `Tracing Light — scroll ${n}` },
-          w: '42vw',
-          idx: `${i + 1}`,
-          cap: '',
-        })),
+        items: [
+          ...[3, 4, 5, 6, 7, 1, 2].map((n, i) => ({
+            media: { type: 'photo' as const, src: `/images/tracing-light-scroll-${n}.jpg`, alt: `Tracing Light — scroll ${n}` },
+            w: '42vw',
+            idx: `${i + 1}`,
+            cap: '',
+          })),
+          { media: { type: 'photo' as const, src: '/images/tracing-light-scroll-8.jpg', alt: 'Tracing Light — scroll 8' }, w: '42vw', idx: '8', cap: '' },
+          { media: { type: 'photo' as const, src: '/images/tracing-light-scroll-9.jpg', alt: 'Tracing Light — scroll 9' }, w: '42vw', idx: '9', cap: '' },
+        ],
       },
       { kind: 'rail', label: 'Tracing Light: Studies I-VI', items: spellbindStudies },
       {
@@ -508,10 +523,10 @@ export const projects: Project[] = [
     id: 'kings-cross-storeys',
     no: 'P.03',
     title: "King's Cross Storeys",
-    blurb: '',
+    blurb:
+      'Watching the King’s Cross area slowly develop and change over many years, I have been recording some of the small details and moments within its continually shifting landscapes, people and architecture.',
     sections: [
       { kind: 'rail', label: '01 — Scroll', items: kingsCrossScroll },
-      { kind: 'text', paragraphs: ['Work in progress.'] },
     ],
   },
   {
@@ -633,10 +648,7 @@ export function About() {
           briefly alters perception and draws attention to the fragile temporality of experience.
         </p>
         <p>
-          An enduring fascination with light underpins the practice, shaping an intuitive process of
-          observation, experimentation and material enquiry. Photography provides the starting point
-          for an expanded practice in which images are translated through thread, moving image,
-          drawing and installation, allowing light itself to become both material and metaphor.
+          An enduring fascination with light underpins this work, shaping an intuitive process of observation, experimentation and material enquiry. Photography provides the starting point for an expanded approach in which images are translated through thread, moving image, drawing and installation, transforming the experience of light into both material form and a metaphor for time.
         </p>
 
         <div className="about-list">
