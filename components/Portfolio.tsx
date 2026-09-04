@@ -50,7 +50,7 @@ type MediaItem =
   | { type: 'drawing'; variant: 'window' | 'stair' | 'figure' | 'curtain' }
   | { type: 'film'; bx: string; by: string }
 
-function Photo({ media, fill = false }: { media: Extract<MediaItem, { type: 'photo' }>; fill?: boolean }) {
+function Photo({ media, fill = false, contain = false }: { media: Extract<MediaItem, { type: 'photo' }>; fill?: boolean; contain?: boolean }) {
   return (
     <div className="piece-photo" style={fill ? { width: '100%', height: '100%' } : undefined}>
       <img
@@ -58,7 +58,7 @@ function Photo({ media, fill = false }: { media: Extract<MediaItem, { type: 'pho
         alt={media.alt}
         loading="lazy"
         style={{
-          ...(fill ? { width: '100%', height: '100%', objectFit: 'cover' as const, display: 'block' } : {}),
+          ...(fill ? { width: '100%', height: '100%', objectFit: contain ? 'contain' as const : 'cover' as const, display: 'block' } : {}),
           ...(media.color ? { filter: 'none' } : {}),
         }}
       />
@@ -116,8 +116,8 @@ function Film({ media }: { media: Extract<MediaItem, { type: 'film' }> }) {
   )
 }
 
-function Piece({ media, fill }: { media: MediaItem; fill?: boolean }) {
-  if (media.type === 'photo') return <Photo media={media} fill={fill} />
+function Piece({ media, fill, contain }: { media: MediaItem; fill?: boolean; contain?: boolean }) {
+  if (media.type === 'photo') return <Photo media={media} fill={fill} contain={contain} />
   if (media.type === 'drawing') return <Drawing media={media} />
   return <Film media={media} />
 }
@@ -226,8 +226,12 @@ function SectionBlock({ section, onImageClick }: { section: Section; onImageClic
         <div className="rail">
           {section.items.map((it, i) => (
             <div key={i} className="rail-item" style={{ ['--iw' as any]: it.w }}>
-              <div className="rail-item-frame">
-                <Piece media={it.media} fill />
+              <div
+                className="rail-item-frame"
+                style={it.media.type === 'photo' ? { cursor: 'pointer' } : undefined}
+                onClick={it.media.type === 'photo' ? () => onImageClick?.(it.media.src) : undefined}
+              >
+                <Piece media={it.media} fill contain />
               </div>
               {it.cap && (
                 <div className="cap">
@@ -408,16 +412,16 @@ const spellbindGrid: MediaItem[] = [
     src: `/images/spellbind-grid-${i + 1}.jpg`,
     alt: `Spellbind — study ${i + 1}`,
   })),
-  { type: 'photo' as const, src: '/images/2. Spellbind grid.JPG', alt: 'Spellbind — study' },
-  { type: 'photo' as const, src: '/images/3. Spellbind grid.JPG', alt: 'Spellbind — study' },
-  { type: 'photo' as const, src: '/images/4. Spellbind grid.JPG', alt: 'Spellbind — study' },
-  { type: 'photo' as const, src: '/images/5. Spellbind grid.JPG', alt: 'Spellbind — study' },
-  { type: 'photo' as const, src: '/images/6. Spellbind grid.JPG', alt: 'Spellbind — study' } ,
+  ...Array.from({ length: 5 }, (_, i) => ({
+    type: 'photo' as const,
+    src: `/images/spellbind-grid-new${i + 1}.jpg`,
+    alt: `Spellbind — study`,
+  })),
 ]
 
 // Scroll: original items 3–12, then the two moved-to-end items (1 & 2), with a new photo leading the whole rail
 const spellbindScroll: RailItem[] = [
-  { media: { type: 'photo', src: '/images/1. Spellbind scroll.JPG', alt: 'Spellbind — scroll' }, w: '44vw', idx: '1', cap: '' },
+  { media: { type: 'photo', src: '/images/spellbind-scroll-new1.jpg', alt: 'Spellbind — scroll' }, w: '44vw', idx: '1', cap: '' },
   ...Array.from({ length: 10 }, (_, i) => ({
     media: { type: 'photo' as const, src: `/images/spellbind-scroll-${i + 3}.jpg`, alt: `Spellbind — scroll ${i + 3}` },
     w: '44vw',
@@ -442,7 +446,7 @@ const spellbindGrid2: MediaItem[] = Array.from({ length: 4 }, (_, i) => ({
   color: i === 1, // the red-lit window frame is a genuine colour shot
 }))
 
-const kingsCrossScroll: RailItem[] = Array.from({ length: 6 }, (_, i) => ({
+const kingsCrossScroll: RailItem[] = Array.from({ length: 15 }, (_, i) => ({
   media: { type: 'photo' as const, src: `/images/kings-cross-scroll-${i + 1}.jpg`, alt: `King's Cross Storeys — study ${i + 1}`, color: true },
   w: '42vw',
   idx: `${i + 1}`,
@@ -456,7 +460,7 @@ export const projects: Project[] = [
     title: 'Spellbind',
     meta: 'Public exhibition · Ambika P3, University of Westminster · 2026',
     blurb:
-      'Spellbind was presented as part of the group show The Passage, which took place at Ambika P3. It brought together photography, thread and moving image.\n\nFleeting moments of light and shadow briefly transform the everyday. Through photography, thread and moving image, ephemeral encounters unfold into material and spatial forms, inviting renewed attention to the extraordinary within the ordinary.',
+      'Spellbind was presented as part of the MA Expanded Photography Group Show -  25 June - 2 July 2026 at Ambika P3. The exhibition brought together photography, thread and moving image.\n\nFleeting moments of light and shadow briefly transform the everyday. Through photography, thread and moving image, ephemeral encounters unfold into material and spatial forms, inviting renewed attention to the extraordinary within the ordinary.',
     sections: [
       { kind: 'rail', label: '01 — Scroll', items: spellbindScroll },
       {
@@ -487,12 +491,16 @@ export const projects: Project[] = [
       {
         kind: 'rail',
         label: '01 — Scroll',
-        items: [3, 4, 5, 6, 7, 1, 2].map((n, i) => ({
-          media: { type: 'photo' as const, src: `/images/tracing-light-scroll-${n}.jpg`, alt: `Tracing Light — scroll ${n}` },
-          w: '42vw',
-          idx: `${i + 1}`,
-          cap: '',
-        })),
+        items: [
+          ...[3, 4, 5, 6, 7, 1, 2].map((n, i) => ({
+            media: { type: 'photo' as const, src: `/images/tracing-light-scroll-${n}.jpg`, alt: `Tracing Light — scroll ${n}` },
+            w: '42vw',
+            idx: `${i + 1}`,
+            cap: '',
+          })),
+          { media: { type: 'photo' as const, src: '/images/tracing-light-scroll-8.jpg', alt: 'Tracing Light — scroll 8' }, w: '42vw', idx: '8', cap: '' },
+          { media: { type: 'photo' as const, src: '/images/tracing-light-scroll-9.jpg', alt: 'Tracing Light — scroll 9' }, w: '42vw', idx: '9', cap: '' },
+        ],
       },
       { kind: 'rail', label: 'Tracing Light: Studies I-VI', items: spellbindStudies },
       {
@@ -501,17 +509,17 @@ export const projects: Project[] = [
           'By extending the photographic image beyond representation into material and spatial forms, the work invites slower, more attentive ways of seeing.',
         ],
       },
-      { kind: 'grid', columns: 4, items: spellbindGrid2, label: '03 — Further works from Tracing Light' },
+      { kind: 'grid', columns: 4, items: spellbindGrid2, label: '03 — More to follow' },
     ],
   },
   {
     id: 'kings-cross-storeys',
     no: 'P.03',
     title: "King's Cross Storeys",
-    blurb: '',
+    blurb:
+      'Watching the King’s Cross area slowly develop and change over many years, I have been recording some of the small details and moments within its continually shifting landscapes, people and architecture.',
     sections: [
       { kind: 'rail', label: '01 — Scroll', items: kingsCrossScroll },
-      { kind: 'text', paragraphs: ['Work in progress.'] },
     ],
   },
   {
@@ -633,10 +641,10 @@ export function About() {
           briefly alters perception and draws attention to the fragile temporality of experience.
         </p>
         <p>
-          An enduring fascination with light underpins the practice, shaping an intuitive process of
-          observation, experimentation and material enquiry. Photography provides the starting point
-          for an expanded practice in which images are translated through thread, moving image,
-          drawing and installation, allowing light itself to become both material and metaphor.
+          An enduring fascination with light underpins this work, shaping an intuitive process of observation,
+          experimentation and material enquiry. Photography provides the starting point for an expanded
+          approach in which images are translated through thread, moving image, drawing and installation,
+          allowing light itself to become both material and metaphor.
         </p>
 
         <div className="about-list">
