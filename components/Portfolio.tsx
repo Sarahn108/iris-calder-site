@@ -424,6 +424,11 @@ const spellbindGrid: MediaItem[] = [
     src: `/images/spellbind-grid-new${i + 1}.jpg`,
     alt: `Spellbind — study`,
   })),
+  ...Array.from({ length: 5 }, (_, i) => ({
+    type: 'photo' as const,
+    src: `/images/spellbind-grid-extra-${i + 1}.jpg`,
+    alt: `Spellbind — study`,
+  })),
 ]
 
 // Scroll: original items 3–12, then the two moved-to-end items (1 & 2), with a new photo leading the whole rail
@@ -453,7 +458,7 @@ const spellbindGrid2: MediaItem[] = Array.from({ length: 4 }, (_, i) => ({
   color: i === 1, // the red-lit window frame is a genuine colour shot
 }))
 
-const kingsCrossScroll: RailItem[] = Array.from({ length: 15 }, (_, i) => ({
+const kingsCrossScroll: RailItem[] = Array.from({ length: 14 }, (_, i) => ({
   media: { type: 'photo' as const, src: `/images/kings-cross-scroll-${i + 1}.jpg`, alt: `King's Cross Storeys — study ${i + 1}`, color: true },
   w: '42vw',
   idx: `${i + 1}`,
@@ -645,7 +650,7 @@ export function About() {
           My practice explores the behaviour of light and shadow in relation to space, time and
           transience. Working across photography, film and sculpture, the work attends to fleeting
           moments of illumination within ordinary, everyday environments, where light&rsquo;s passage
-          briefly alters perception and draws attention to the fragile temporality of experience.
+          briefly alters perception and draws attention to the fragile temporality of existence.
         </p>
         <p>
           An enduring fascination with light underpins this work, shaping an intuitive process of observation, experimentation and material enquiry. Photography provides the starting point for an expanded approach in which images are translated through thread, moving image, drawing and installation, transforming the experience of light into both material form and a metaphor for time.
