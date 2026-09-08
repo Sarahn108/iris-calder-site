@@ -58,7 +58,7 @@ function Photo({ media, fill = false, contain = false }: { media: Extract<MediaI
         alt={media.alt}
         loading="lazy"
         draggable={false}
-onContextMenu={(e) => e.preventDefault()}3
+onContextMenu={(e) => e.preventDefault()}
         
         style={{
           ...(fill ? { width: '100%', height: '100%', objectFit: contain ? 'contain' as const : 'cover' as const, display: 'block' } : {}),
