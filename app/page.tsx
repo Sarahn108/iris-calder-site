@@ -62,7 +62,15 @@ export default function Page() {
       </nav>
 
       {view === 'home' && <Home go={(p) => setView(p as View)} />}
-      {view === 'projects' && <Projects projectId={projectId} />}
+    {view === 'projects' && (
+  <Projects
+    projectId={projectId}
+    onNavigate={(id) => {
+      setProjectId(id)
+      setView('projects')
+    }}
+  />
+)}
       {view === 'about' && <About />}
       {view === 'contact' && <Contact />}
 
