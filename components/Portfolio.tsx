@@ -623,7 +623,45 @@ const nextProject = projects[(currentIndex + 1) % projects.length]
           <SectionBlock key={`${active.id}-${i}`} section={section} onImageClick={setLightbox} />
         ))}
       </div>
+      <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '3rem',
+            marginTop: '4rem',
+            marginBottom: '2rem',
+          }}
+        >
+          {currentIndex > 0 && (
+            <button
+              onClick={() => onNavigate(previousProject.id)}
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                font: 'inherit',
+                cursor: 'pointer',
+              }}
+            >
+              Previous
+            </button>
+          )}
 
+          {currentIndex < projects.length - 1 && (
+            <button
+              onClick={() => onNavigate(nextProject.id)}
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                font: 'inherit',
+                cursor: 'pointer',
+              }}
+            >
+              Next
+            </button>
+          )}
+        </div>
       {lightbox && (
         <div className="lightbox" onClick={() => setLightbox(null)}>
           <img src={lightbox} alt="" />
