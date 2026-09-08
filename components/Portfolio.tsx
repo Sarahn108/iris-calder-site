@@ -579,10 +579,18 @@ export const projects: Project[] = [
 /* ================================================================== */
 /* 6. Projects page — project chosen via the nav dropdown              */
 /* ================================================================== */
-export function Projects({ projectId }: { projectId?: string }) {
+export function Projects({
+  projectId,
+  onNavigate,
+}: {
+  projectId?: string
+  onNavigate: (id: string) => void
+}) {
   const active = projects.find((p) => p.id === projectId) ?? projects[0]
   const [lightbox, setLightbox] = useState<string | null>(null)
-
+const currentIndex = projects.findIndex((p) => p.id === active.id)
+const previousProject = projects[(currentIndex - 1 + projects.length) % projects.length]
+const nextProject = projects[(currentIndex + 1) % projects.length]
   return (
     <section className="proj-page">
       <div className="ic-section-head" style={{ position: 'relative' }}>
