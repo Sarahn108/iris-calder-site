@@ -258,7 +258,7 @@ function SectionBlock({ section, onImageClick }: { section: Section; onImageClic
       return (
         <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '100%', alignSelf: 'center', display: 'flex', justifyContent: 'center' }}>
           <div className="film-real" style={{ ['--fw' as any]: section.w ?? '100%' }}>
-            <video controls preload="metadata" poster={section.poster} playsInline>
+            <video controls controlsList="nodownload" preload="metadata" poster={section.poster} playsInline>
               <source src={section.src} type="video/mp4" />
             </video>
             {section.label && <div className="rail-caption ic-mono">{section.label}</div>}
