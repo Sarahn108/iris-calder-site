@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Home, Projects, About, Contact, projects } from '@/components/Portfolio'
 
 type View = 'home' | 'projects' | 'about' | 'contact'
@@ -10,7 +10,27 @@ export default function Page() {
   const [projectId, setProjectId] = useState<string>(projects[0].id)
   const [projectsOpen, setProjectsOpen] = useState(false)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  useEffect(() => {
+    const blockImageContextMenu = (e: MouseEvent) => {
+      if (e.target instanceof HTMLImageElement) {
+        e.preventDefault()
+      }
+    }
 
+    const blockImageDrag = (e: DragEvent) => {
+      if (e.target instanceof HTMLImageElement) {
+        e.preventDefault()
+      }
+    }
+
+    document.addEventListener('contextmenu', blockImageContextMenu)
+    document.addEventListener('dragstart', blockImageDrag)
+
+    return () => {
+      document.removeEventListener('contextmenu', blockImageContextMenu)
+      document.removeEventListener('dragstart', blockImageDrag)
+    }
+  }, [])
   return (
     <main>
       <nav className="site-nav ic-mono">
