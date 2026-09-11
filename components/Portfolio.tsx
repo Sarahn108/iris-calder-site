@@ -183,7 +183,7 @@ function SectionBlock({ section, onImageClick }: { section: Section; onImageClic
 
   if (section.kind === 'single') {
     return (
-      <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ ['--w' as any]: section.w, alignSelf: section.align === 'left' ? 'flex-start' : section.align === 'right' ? 'flex-end' : 'center' }}>
+      <div ref={ref} className={`sec ${inView ? 'in' : ''} ${section.className ?? ''}`} style={{ ['--w' as any]: section.w, alignSelf: section.align === 'left' ? 'flex-start' : section.align === 'right' ? 'flex-end' : 'center' }}>
         <Piece media={section.media} />
         <div className="sec-cap" style={{ justifyContent: section.align === 'right' ? 'flex-end' : section.align === 'center' ? 'center' : 'flex-start' }}>
           <span className="idx">{section.idx}</span>
