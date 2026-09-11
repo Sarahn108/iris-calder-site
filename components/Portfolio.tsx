@@ -509,12 +509,12 @@ export const projects: Project[] = [
         items: [
           ...[3, 4, 5, 6, 7, 1, 2].map((n, i) => ({
             media: { type: 'photo' as const, src: `/images/tracing-light-scroll-${n}.jpg`, alt: `Tracing Light — scroll ${n}` },
-            w: '42vw',
+            w: '40vw',
             idx: `${i + 1}`,
             cap: '',
           })),
-          { media: { type: 'photo' as const, src: '/images/tracing-light-scroll-8.jpg', alt: 'Tracing Light — scroll 8' }, w: '42vw', idx: '8', cap: '' },
-          { media: { type: 'photo' as const, src: '/images/tracing-light-scroll-9.jpg', alt: 'Tracing Light — scroll 9' }, w: '42vw', idx: '9', cap: '' },
+          { media: { type: 'photo' as const, src: '/images/tracing-light-scroll-8.jpg', alt: 'Tracing Light — scroll 8' }, w: '40vw', idx: '8', cap: '' },
+          { media: { type: 'photo' as const, src: '/images/tracing-light-scroll-9.jpg', alt: 'Tracing Light — scroll 9' }, w: '40vw', idx: '9', cap: '' },
         ],
       },
       { kind: 'rail', label: 'Tracing Light: Studies I-VI', items: spellbindStudies },
