@@ -233,6 +233,9 @@ img { max-width: 100%; }
 .kings-cross-main .rail-item-frame {
   aspect-ratio: 16 / 10;
 }
+.tracing-light-scroll .rail-item-frame {
+  aspect-ratio: 16 / 10;
+}
 .rail-item-frame .piece-photo { width: 100%; height: 100%; }
 .rail-item .cap { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.03em; color: var(--ink-soft); }
 .rail-caption {
