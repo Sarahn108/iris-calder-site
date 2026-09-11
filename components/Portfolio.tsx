@@ -437,14 +437,15 @@ const spellbindGrid: MediaItem[] = [
 // Scroll: original items 3–12, then the two moved-to-end items (1 & 2), with a new photo leading the whole rail
 const spellbindScroll: RailItem[] = [
   { media: { type: 'photo', src: '/images/spellbind-scroll-new1.jpg', alt: 'Spellbind — scroll' }, w: '44vw', idx: '1', cap: '' },
-  ...Array.from({ length: 10 }, (_, i) => ({
+  ...Array.from({ length: 9 }, (_, i) => ({
     media: { type: 'photo' as const, src: `/images/spellbind-scroll-${i + 3}.jpg`, alt: `Spellbind — scroll ${i + 3}` },
     w: '44vw',
     idx: `${i + 2}`,
     cap: '',
   })),
-  { media: { type: 'photo', src: '/images/spellbind-scroll-1.jpg', alt: 'Spellbind — scroll 1' }, w: '44vw', idx: '12', cap: '' },
-  { media: { type: 'photo', src: '/images/spellbind-scroll-2.jpg', alt: 'Spellbind — scroll 2' }, w: '44vw', idx: '13', cap: '' },
+  { media: { type: 'photo', src: '/images/DSC_4968(4).JPG', alt: 'Spellbind — exhibition view' }, w: '44vw', idx: '11', cap: '' },
+  { media: { type: 'photo', src: '/images/DSC_4841.JPG', alt: 'Spellbind — thread detail' }, w: '44vw', idx: '12', cap: '' },
+  { media: { type: 'photo', src: '/images/IMG_7720(3).JPG', alt: 'Spellbind — exhibition view' }, w: '44vw', idx: '13', cap: '' },
 ]
 
 const spellbindStudies: RailItem[] = Array.from({ length: 6 }, (_, i) => ({
