@@ -228,6 +228,9 @@ img { max-width: 100%; }
   scroll-snap-type: x proximity; scrollbar-width: none; -ms-overflow-style: none;
 }
 .rail::-webkit-scrollbar { display: none; }
+.kings-cross-portraits .rail {
+  gap: 1rem;
+}
 .rail-item { flex: 0 0 auto; scroll-snap-align: start; display: flex; flex-direction: column; gap: 0.55rem; width: var(--iw); }
 .rail-item-frame { width: 100%; aspect-ratio: 4 / 5; overflow: hidden; }
 .kings-cross-main .rail-item-frame {
