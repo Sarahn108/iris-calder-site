@@ -239,7 +239,7 @@ function SectionBlock({ section, onImageClick }: { section: Section; onImageClic
                       if (photoSrc) onImageClick?.(photoSrc)
                     }}
                       >
-                    <Piece media={it.media} fill fill />
+                    <Piece media={it.media} fill contain />
                   </div>
                 )
               })()}
