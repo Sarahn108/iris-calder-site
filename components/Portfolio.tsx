@@ -505,6 +505,7 @@ export const projects: Project[] = [
       // while the maquette images remain as their own smaller scroll.
       {
         kind: 'rail',
+        className: 'tracing-light-scroll',
         label: '01 — Scroll',
         items: [
           ...[3, 4, 5, 6, 7, 1, 2].map((n, i) => ({
