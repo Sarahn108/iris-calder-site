@@ -537,7 +537,7 @@ export const projects: Project[] = [
           { media: { type: 'photo' as const, src: '/images/tracing-light-scroll-9.jpg', alt: 'Tracing Light — scroll 9' }, w: '42vw', idx: '9', cap: '' },
         ],
       },
-      { kind: 'rail', label: 'Tracing Light: Studies I-VI', items: spellbindStudies },
+      { kind: 'rail', label: 'Tracing Light: Studies I-VI', items: spellbindStudies, className: 'tracing-light-studies' },
       {
         kind: 'text',
         paragraphs: [
