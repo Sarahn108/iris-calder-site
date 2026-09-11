@@ -443,9 +443,9 @@ const spellbindScroll: RailItem[] = [
     idx: `${i + 2}`,
     cap: '',
   })),
-  { media: { type: 'photo', src: '/images/DSC_4968(4).JPG', alt: 'Spellbind — exhibition view' }, w: '44vw', idx: '11', cap: '' },
+  { media: { type: 'photo', src: '/images/DSC_4968.JPG', alt: 'Spellbind — exhibition view' }, w: '44vw', idx: '11', cap: '' },
   { media: { type: 'photo', src: '/images/DSC_4841.JPG', alt: 'Spellbind — thread detail' }, w: '44vw', idx: '12', cap: '' },
-  { media: { type: 'photo', src: '/images/IMG_7720(3).JPG', alt: 'Spellbind — exhibition view' }, w: '44vw', idx: '13', cap: '' },
+  { media: { type: 'photo', src: '/images/IMG_7720.JPG', alt: 'Spellbind — exhibition view' }, w: '44vw', idx: '13', cap: '' },
 ]
 
 const spellbindStudies: RailItem[] = Array.from({ length: 6 }, (_, i) => ({
