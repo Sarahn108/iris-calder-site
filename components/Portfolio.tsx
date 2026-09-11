@@ -469,11 +469,7 @@ const kingsCrossScroll: RailItem[] = kingsCrossOrder.map((i) => ({
   idx: `${i}`,
   cap: '',
 }))
-  media: { type: 'photo' as const, src: `/images/kings-cross-scroll-${i + 1}.jpg`, alt: `King's Cross Storeys — study ${i + 1}`, color: true },
-  w: '42vw',
-  idx: `${i + 1}`,
-  cap: '',
-}))
+ 
 
 export const projects: Project[] = [
   {
