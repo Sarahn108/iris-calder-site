@@ -533,7 +533,7 @@ export const projects: Project[] = [
   { media: { type: 'photo' as const, src: '/images/tracing-light-scroll-2.jpg', alt: 'Tracing Light — scroll 2' }, w: '42vw', idx: '9', cap: '' },
   { media: { type: 'photo' as const, src: '/images/tracing-light-scroll-8.jpg', alt: 'Tracing Light — scroll 8' }, w: '42vw', idx: '10', cap: '' },
   { media: { type: 'photo' as const, src: '/images/tracing-light-scroll-9.jpg', alt: 'Tracing Light — scroll 9' }, w: '42vw', idx: '11', cap: '' },
-
+{ media: { type: 'photo' as const, src: '/images/tracing-light-scroll-6.jpg', alt: 'Tracing Light — scroll 6' }, w: '42vw', idx: '12', cap: '' },
           { media: { type: 'photo' as const, src: '/images/tracing-light-scroll-9.jpg', alt: 'Tracing Light — scroll 9' }, w: '42vw', idx: '9', cap: '' },
         ],
       },
