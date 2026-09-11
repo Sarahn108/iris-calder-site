@@ -184,7 +184,7 @@ img { max-width: 100%; }
 .proj-page { padding: 4rem 2rem 8rem; }
 .ic-section-head { margin-bottom: 3rem; }
 .proj-title { font-size: 2rem; font-family: 'Newsreader', serif; font-style: italic; font-weight: 300; margin: 0.5rem 0 0; }
-.proj-flow { display: flex; flex-direction: column; margin-top: 4rem; }
+.proj-flow { display: flex; flex-direction: column; margin-top: 2.5rem; }
 
 @media (max-width: 760px) {
   .proj-page { padding: 2.5rem 1.25rem 5rem; }
