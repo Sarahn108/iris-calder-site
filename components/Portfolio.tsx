@@ -556,7 +556,7 @@ export const projects: Project[] = [
       'Watching the King’s Cross area slowly develop and change over many years, I have been recording some of the small details and moments within its continually shifting landscapes, people and architecture.',
     sections: [
   { kind: 'rail', label: '01 — Scroll', items: kingsCrossScroll, tightBottom: true, className: 'kings-cross-main' },
-  { kind: 'rail', label: 'Portraits', items: kingsCrossPortraits },
+{ kind: 'rail', label: 'Portraits', items: kingsCrossPortraits, className: 'kings-cross-portraits' },
     ],
   },
   {
