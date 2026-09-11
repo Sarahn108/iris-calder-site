@@ -220,7 +220,7 @@ function SectionBlock({ section, onImageClick }: { section: Section; onImageClic
 
   if (section.kind === 'rail') {
     return (
-      <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '100%', alignSelf: 'center', marginBottom: section.tightBottom ? '1.4rem' : undefined }}>
+      <div ref={ref} className={`sec ${inView ? 'in' : ''} ${section.className ?? ''}`} style={{ width: '100%', alignSelf: 'center', marginBottom: section.tightBottom ? '1.4rem' : undefined }}>
         <div className="rail-hint">
           <span>{section.label}</span>
           <span className="rline" />
