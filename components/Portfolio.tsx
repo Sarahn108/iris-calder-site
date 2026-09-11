@@ -461,7 +461,14 @@ const spellbindGrid2: MediaItem[] = Array.from({ length: 4 }, (_, i) => ({
   color: i === 1, // the red-lit window frame is a genuine colour shot
 }))
 
-const kingsCrossScroll: RailItem[] = Array.from({ length: 14 }, (_, i) => ({
+const kingsCrossOrder = [1, 5, 4, 6, 7, 8, 9, 10, 12, 13, 14, 11]
+
+const kingsCrossScroll: RailItem[] = kingsCrossOrder.map((i) => ({
+  media: { type: 'photo' as const, src: `/images/kings-cross-scroll-${i}.jpg`, alt: `King's Cross Storeys — study ${i}`, color: true },
+  w: '42vw',
+  idx: `${i}`,
+  cap: '',
+}))
   media: { type: 'photo' as const, src: `/images/kings-cross-scroll-${i + 1}.jpg`, alt: `King's Cross Storeys — study ${i + 1}`, color: true },
   w: '42vw',
   idx: `${i + 1}`,
