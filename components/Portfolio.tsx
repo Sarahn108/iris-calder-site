@@ -162,7 +162,7 @@ type Section =
   | { kind: 'single'; media: MediaItem; w: string; align: Align; idx: string; cap: string }
   | { kind: 'full'; media: MediaItem; idx: string; cap: string }
   | { kind: 'space'; w: string; align: Align; idx: string; cap: string }
-  | { kind: 'rail'; label: string; items: RailItem[]; caption?: string; tightBottom?: boolean }
+  | { kind: 'rail'; label: string; items: RailItem[]; caption?: string; tightBottom?: boolean; className?: string }
   | { kind: 'filmSlot'; label?: string; w?: string; src?: string; poster?: string }
   | { kind: 'mosaic'; items: MediaItem[] }
   | { kind: 'grid'; columns: number; items: MediaItem[]; label?: string }
