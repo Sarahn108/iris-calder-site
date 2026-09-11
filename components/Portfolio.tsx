@@ -470,7 +470,18 @@ const kingsCrossScroll: RailItem[] = kingsCrossOrder.map((i) => ({
   cap: '',
 }))
  
-
+const kingsCrossPortraits: RailItem[] = [
+  { media: { type: 'photo' as const, src: '/images/DSC_1580(3).JPG', alt: 'King’s Cross Portraits 1', color: true }, w: '26vw', idx: '1', cap: '' },
+  { media: { type: 'photo' as const, src: '/images/DSC_1583(1).JPG', alt: 'King’s Cross Portraits 2', color: true }, w: '26vw', idx: '2', cap: '' },
+  { media: { type: 'photo' as const, src: '/images/DSC_1588(3).JPG', alt: 'King’s Cross Portraits 3', color: true }, w: '26vw', idx: '3', cap: '' },
+  { media: { type: 'photo' as const, src: '/images/DSC_1577.JPG', alt: 'King’s Cross Portraits 4', color: true }, w: '26vw', idx: '4', cap: '' },
+  { media: { type: 'photo' as const, src: '/images/DSC_1585.JPG', alt: 'King’s Cross Portraits 5', color: true }, w: '26vw', idx: '5', cap: '' },
+  { media: { type: 'photo' as const, src: '/images/DSC_1594(1).JPG', alt: 'King’s Cross Portraits 6', color: true }, w: '26vw', idx: '6', cap: '' },
+  { media: { type: 'photo' as const, src: '/images/DSC_1682.JPG', alt: 'King’s Cross Portraits 7', color: true }, w: '26vw', idx: '7', cap: '' },
+  { media: { type: 'photo' as const, src: '/images/DSC_0307(1).JPG', alt: 'King’s Cross Portraits 8', color: true }, w: '26vw', idx: '8', cap: '' },
+  { media: { type: 'photo' as const, src: '/images/DSC_1579(1).JPG', alt: 'King’s Cross Portraits 9', color: true }, w: '26vw', idx: '9', cap: '' },
+  { media: { type: 'photo' as const, src: '/images/DSC_0320(2).JPG', alt: 'King’s Cross Portraits 10', color: true }, w: '26vw', idx: '10', cap: '' },
+]
 export const projects: Project[] = [
   {
     id: 'spellbind',
