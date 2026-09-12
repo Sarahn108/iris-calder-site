@@ -252,6 +252,9 @@ img { max-width: 100%; }
   .tracing-light-scroll .rail-item-frame {
     height: 68vw;
   }
+  .tracing-light-scroll .rail-item {
+  width: auto !important;
+}
 }
 .tracing-light-scroll .rail-item-frame .piece-photo {
   width: auto;
