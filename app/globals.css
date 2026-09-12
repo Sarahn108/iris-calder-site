@@ -244,7 +244,7 @@ img { max-width: 100%; }
   width: max-content !important;
 }
 .tracing-light-scroll .rail-item-frame {
-  width: 100%;
+  width: auto;
   height: 30vw;
   aspect-ratio: auto;
 }
