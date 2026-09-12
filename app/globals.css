@@ -240,7 +240,7 @@ img { max-width: 100%; }
   aspect-ratio: 16 / 10;
 }
 .tracing-light-scroll .rail-item {
-  width: max-content !important;
+  width: 68vw !important;
 }
 
 .tracing-light-scroll .rail-item-frame {
