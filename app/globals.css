@@ -255,7 +255,7 @@ img { max-width: 100%; }
 }
 .tracing-light-scroll .rail-item-frame .piece-photo {
   width: auto;
-  height: auto;
+  height: 100%;
 }
 
 .tracing-light-scroll .rail-item-frame .piece-photo img {
