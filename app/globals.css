@@ -239,9 +239,7 @@ img { max-width: 100%; }
 .kings-cross-main .rail-item-frame {
   aspect-ratio: 16 / 10;
 }
-.tracing-light-scroll .rail-item {
-  width: 68vw !important;
-}
+
 
 .tracing-light-scroll .rail-item-frame {
   width: auto;
