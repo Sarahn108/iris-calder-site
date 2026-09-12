@@ -108,7 +108,7 @@ img { max-width: 100%; }
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
   gap: 3rem;
-  align-items: center;
+  align-items: start;
   min-height: 85vh;
 }
 .ic-hero-copy { display: flex; flex-direction: column; gap: 1.75rem; transform: translateY(3rem);}
