@@ -276,7 +276,7 @@ img { max-width: 100%; }
 .rail-item { width: 68vw !important; }
 }
 .tracing-light-scroll .rail {
-  gap: 1rem;
+ gap: 0.25rem;
 }
 /* ================================================================== */
 /* Film slot — placeholder for footage not yet added                   */
