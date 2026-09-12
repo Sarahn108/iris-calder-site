@@ -276,7 +276,7 @@ height: auto;
 }
 
 @media (max-width: 760px) {
-.rail-item { width: 42vw !important; }
+.rail-item { width: 68vw !important; }
 }
 
 /* ================================================================== */
