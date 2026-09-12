@@ -273,7 +273,7 @@ img { max-width: 100%; }
 }
 
 @media (max-width: 760px) {
-  .rail-item { width: 68vw !important; }
+ .rail-item { width: 68vw !important; gap: 0 !important; }
 }
 
 /* ================================================================== */
