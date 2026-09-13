@@ -233,7 +233,7 @@ function SectionBlock({ section, onImageClick }: { section: Section; onImageClic
                 const photoSrc = it.media.type === 'photo' ? it.media.src : undefined
                 return (
                   <div
-                    className="rail-item-frame"
+                    className={`rail-item-frame ${section.className === 'tracing-light-scroll' ? 'tracing-light-mobile' : ''}`}
                     style={photoSrc ? { cursor: 'pointer' } : undefined}
                     onClick={() => {
                       if (photoSrc) onImageClick?.(photoSrc)
