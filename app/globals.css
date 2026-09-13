@@ -264,7 +264,7 @@ height: auto;
 .tracing-light-scroll .rail-item-frame .piece-photo img {
   width: auto;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 .tracing-light-studies .rail-item {
   width: 20vw !important;
