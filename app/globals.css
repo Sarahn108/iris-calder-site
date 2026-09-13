@@ -293,9 +293,10 @@ height: auto;
 @media (max-width: 760px) {
 .rail-item { width: 68vw !important; }
 }
+
 @media (max-width: 760px) {
-  .kings-cross-main .rail-item {
-    width: 84vw !important;
+  .kings-cross-main .rail-item-frame {
+    height: 82vw !important;
   }
 }
 /* ================================================================== */
