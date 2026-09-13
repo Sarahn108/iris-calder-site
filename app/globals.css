@@ -241,7 +241,7 @@ img { max-width: 100%; }
 }
 
 .tracing-light-scroll .rail-item {
- width: var(--iw);
+ width: max-content !important;
 }
 .tracing-light-scroll .rail-item-frame {
   width: auto;
