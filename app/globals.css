@@ -295,8 +295,26 @@ height: auto;
 }
 
 @media (max-width: 760px) {
+  .kings-cross-main .rail-item {
+    width: max-content !important;
+  }
+
   .kings-cross-main .rail-item-frame {
-    height: 84vw !important;
+    width: max-content !important;
+    height: 68vw !important;
+    aspect-ratio: auto;
+  }
+
+  .kings-cross-main .rail-item-frame .piece-photo {
+    width: max-content !important;
+    height: 68vw !important;
+  }
+
+  .kings-cross-main .rail-item-frame .piece-photo img {
+    width: auto !important;
+    height: 68vw !important;
+    max-width: none !important;
+    object-fit: unset !important;
   }
 }
 /* ================================================================== */
