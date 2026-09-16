@@ -318,6 +318,30 @@ height: auto;
   }
 }
 /* ================================================================== */
+/* Many Hands Make — main scroll                                      */
+/* ================================================================== */
+
+.many-hands-main .rail-item {
+  width: max-content !important;
+}
+
+.many-hands-main .rail-item-frame {
+  width: auto;
+  height: 30vw;
+  aspect-ratio: auto;
+}
+
+.many-hands-main .rail-item-frame .piece-photo {
+  width: auto;
+  height: 100%;
+}
+
+.many-hands-main .rail-item-frame .piece-photo img {
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+}
+/* ================================================================== */
 /* Film slot — placeholder for footage not yet added                   */
 /* ================================================================== */
 .film-slot {
