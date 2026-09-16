@@ -566,7 +566,7 @@ export const projects: Project[] = [
     blurb:
       'Many Hands Make documents the Hampstead Gown Factory, a volunteer-led project established during the first wave of the COVID-19 pandemic to produce surgical gowns for frontline workers at the Royal Free Hospital. Working as a volunteer in the Sewing Room, I photographed the people, their hands and the many swift, transitory processes involved in making and completing the gowns.',
     sections: [
-      {
+      {kind: 'rail',
         label: '01 — Scroll',
 tightBottom: true,
 className: 'many-hands-main',
