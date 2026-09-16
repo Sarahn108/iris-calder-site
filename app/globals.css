@@ -318,6 +318,31 @@ height: auto;
   }
 }
 /* ================================================================== */
+/* Many Hands Make — main scroll                                      */
+/* ================================================================== */
+
+.many-hands-main .rail-item {
+  width: max-content !important;
+}
+
+.many-hands-main .rail-item-frame {
+  width: max-content !important;
+  height: 30vw !important;
+  aspect-ratio: auto;
+}
+
+.many-hands-main .rail-item-frame .piece-photo {
+  width: max-content !important;
+  height: 30vw !important;
+}
+
+.many-hands-main .rail-item-frame .piece-photo img {
+  width: auto !important;
+  height: 30vw !important;
+  max-width: none !important;
+  object-fit: unset !important;
+}
+/* ================================================================== */
 /* Film slot — placeholder for footage not yet added                   */
 /* ================================================================== */
 .film-slot {
