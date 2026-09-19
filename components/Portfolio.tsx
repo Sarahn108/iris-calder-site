@@ -427,9 +427,9 @@ if (section.kind === 'installationViews') {
 
         <div className="installation-views-images">
           {spellbindInstallationViews.map((item) => (
-            <div key={item.idx} className="installation-view-image">
-              <Piece media={item.media} fill />
-            </div>
+          <div key={item.idx} className="installation-view-image">
+  <Piece media={item.media} fill />
+</div>
           ))}
         </div>
 
