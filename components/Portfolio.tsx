@@ -170,6 +170,7 @@ type Section =
   | { kind: 'contactSheet'; items: MediaItem[] }
   | { kind: 'pdfBook'; cover: string; title: string; href: string }
   | { kind: 'embed3d'; url: string; label?: string; w?: string }
+  | { kind: 'installationViews'; embedUrl: string; filmSrc: string; filmPoster?: string; label?: string }
   | { kind: 'text'; paragraphs: string[] }
 
 // Deterministic pseudo-random offset per index, so scattered layouts are stable across renders
@@ -378,7 +379,63 @@ function SectionBlock({ section, onImageClick }: { section: Section; onImageClic
       </div>
     )
   }
+if (section.kind === 'installationViews') {
+    return (
+      <div
+        ref={ref}
+        className={`sec ${inView ? 'in' : ''} installation-views`}
+        style={{
+          width: '100%',
+          alignSelf: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <div className="installation-views-films">
+          <div className="installation-view-luma">
+            <div className="embed-3d-wrap">
+              <iframe
+                src={section.embedUrl}
+                className="embed-3d"
+                allow="fullscreen; xr-spatial-tracking"
+                title="3D capture"
+              />
+              <div className="embed-3d-cover" />
+            </div>
+          </div>
 
+          <div className="installation-view-film">
+            <div className="film-real">
+              <video
+                controls
+                controlsList="nodownload"
+                preload="metadata"
+                poster={section.filmPoster}
+                playsInline
+              >
+                <source src={section.filmSrc} type="video/mp4" />
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <div className="installation-views-images">
+          {spellbindInstallationViews.map((item) => (
+            <div key={item.idx} className="installation-view-image">
+              <Piece media={item.media} fill />
+            </div>
+          ))}
+        </div>
+
+        {section.label && (
+          <div className="rail-caption ic-mono">
+            {section.label}
+          </div>
+        )}
+      </div>
+    )
+  }
   // embed3d
   return (
     <div ref={ref} className={`sec ${inView ? 'in' : ''}`} style={{ width: '100%', alignSelf: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
