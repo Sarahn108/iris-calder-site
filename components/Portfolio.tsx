@@ -425,7 +425,7 @@ if (section.kind === 'installationViews') {
           </div>
         </div>
 
-      <div className="installation-views-images">
+     <div className="installation-views-images">
   {spellbindInstallationViews.map((item) => {
     const photoSrc = item.media.type === 'photo' ? item.media.src : undefined
 
@@ -443,11 +443,6 @@ if (section.kind === 'installationViews') {
     )
   })}
 </div>
-      <Piece media={item.media} fill />
-    </div>
-  )
-})()}   ))}
-        </div>
 
         {section.label && (
           <div className="rail-caption ic-mono">
