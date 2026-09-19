@@ -415,23 +415,22 @@ const railOf = (prefix: string, count: number, w: string): RailItem[] =>
     idx: `${i + 1}`,
     cap: '',
   }))
-
 const spellbindGrid: MediaItem[] = [
   ...Array.from({ length: 15 }, (_, i) => ({
     type: 'photo' as const,
     src: `/images/spellbind-grid-${i + 1}.jpg`,
     alt: `Spellbind — study ${i + 1}`,
-  })).filter((_, i) => ![6, 7, 14].includes(i)),
+  })).filter((_, i) => ![11, 12].includes(i)),
   ...Array.from({ length: 5 }, (_, i) => ({
     type: 'photo' as const,
     src: `/images/spellbind-grid-new${i + 1}.jpg`,
     alt: `Spellbind — study`,
-  })).filter((_, i) => ![2, 4].includes(i)),
+  })).filter((_, i) => ![4].includes(i)),
   ...Array.from({ length: 5 }, (_, i) => ({
     type: 'photo' as const,
     src: `/images/spellbind-grid-extra-${i + 1}.jpg`,
     alt: `Spellbind — study`,
-  })),
+  })).filter((_, i) => ![2, 4].includes(i)),
 ]
 // Scroll: original items 3–12, then the two moved-to-end items (1 & 2), with a new photo leading the whole rail
 const spellbindScroll: RailItem[] = [
