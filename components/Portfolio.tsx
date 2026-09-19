@@ -459,7 +459,13 @@ const spellbindGrid2: MediaItem[] = Array.from({ length: 4 }, (_, i) => ({
   alt: `Spellbind — study ${i + 1}`,
   color: i === 1, // the red-lit window frame is a genuine colour shot
 }))
-
+const spellbindInstallationViews: RailItem[] = [
+  { media: { type: 'photo', src: '/images/spellbind-grid-12.jpg', alt: 'Spellbind — visitor view' }, w: '18vw', idx: '1', cap: '' },
+  { media: { type: 'photo', src: '/images/spellbind-grid-13.jpg', alt: 'Spellbind — installation view' }, w: '18vw', idx: '2', cap: '' },
+  { media: { type: 'photo', src: '/images/spellbind-grid-new5.jpg', alt: 'Spellbind — installation view' }, w: '18vw', idx: '3', cap: '' },
+  { media: { type: 'photo', src: '/images/spellbind-grid-extra-3.jpg', alt: 'Spellbind — shadow detail' }, w: '18vw', idx: '4', cap: '' },
+  { media: { type: 'photo', src: '/images/spellbind-grid-extra-5.jpg', alt: 'Spellbind — installation view' }, w: '18vw', idx: '5', cap: '' },
+]
 const kingsCrossOrder = [1, 5, 4, 6, 7, 8, 9, 10, 12, 13, 14, 11]
 
 const kingsCrossScroll: RailItem[] = kingsCrossOrder.map((i) => ({
