@@ -392,6 +392,11 @@ if (section.kind === 'installationViews') {
           alignItems: 'center',
         }}
       >
+        {section.label && (
+  <div className="installation-views-title">
+    {section.label}
+  </div>
+)}
         <div className="installation-views-films">
           <div className="installation-view-luma">
             <div className="embed-3d-wrap">
@@ -565,7 +570,7 @@ export const projects: Project[] = [
   kind: 'installationViews',
   embedUrl: 'https://lumalabs.ai/embed/A16D3019-752A-4C91-852D-E1D3439C689D?mode=sparkles&background=%23ECE8DF&color=%23262622&showTitle=false&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&showMenu=false',
   filmSrc: '/spellbind-installation-film.mp4',
-  label: 'Installation Views',
+  label: 'Installation Views at Ambika P3, London',
 },
     ],
   },
