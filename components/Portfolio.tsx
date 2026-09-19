@@ -427,7 +427,12 @@ if (section.kind === 'installationViews') {
 
         <div className="installation-views-images">
           {spellbindInstallationViews.map((item) => (
-          <div key={item.idx} className="installation-view-image">
+          <div
+  key={item.idx}
+  className="installation-view-image"
+  style={{ cursor: 'pointer' }}
+  onClick={() => onImageClick?.(item.media.src)}
+>
   <Piece media={item.media} fill />
 </div>
           ))}
