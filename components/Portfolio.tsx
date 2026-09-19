@@ -170,6 +170,7 @@ type Section =
   | { kind: 'contactSheet'; items: MediaItem[] }
   | { kind: 'pdfBook'; cover: string; title: string; href: string }
   | { kind: 'embed3d'; url: string; label?: string; w?: string }
+  | { kind: 'installationViews'; embedUrl: string; filmSrc: string; filmPoster?: string; label?: string }
   | { kind: 'text'; paragraphs: string[] }
 
 // Deterministic pseudo-random offset per index, so scattered layouts are stable across renders
