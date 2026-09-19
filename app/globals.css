@@ -601,7 +601,11 @@ height: auto;
 /* ================================================================== */
 /* Spellbind — installation views                                      */
 /* ================================================================== */
-
+.installation-views-title {
+  align-self: flex-start;
+  font-size: 0.9rem;
+  margin-bottom: 0.7rem;
+}
 .installation-views-films {
   width: 100%;
   display: grid;
