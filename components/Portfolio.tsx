@@ -425,17 +425,28 @@ if (section.kind === 'installationViews') {
           </div>
         </div>
 
-        <div className="installation-views-images">
-          {spellbindInstallationViews.map((item) => (
-          <div
-  key={item.idx}
-  className="installation-view-image"
-  style={{ cursor: 'pointer' }}
- onClick={item.media.type === 'photo' ? () => onImageClick?.(item.media.src) : undefined}
->
-  <Piece media={item.media} fill />
+      <div className="installation-views-images">
+  {spellbindInstallationViews.map((item) => {
+    const photoSrc = item.media.type === 'photo' ? item.media.src : undefined
+
+    return (
+      <div
+        key={item.idx}
+        className="installation-view-image"
+        style={photoSrc ? { cursor: 'pointer' } : undefined}
+        onClick={() => {
+          if (photoSrc) onImageClick?.(photoSrc)
+        }}
+      >
+        <Piece media={item.media} fill />
+      </div>
+    )
+  })}
 </div>
-          ))}
+      <Piece media={item.media} fill />
+    </div>
+  )
+})()}   ))}
         </div>
 
         {section.label && (
