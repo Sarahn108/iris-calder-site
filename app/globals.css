@@ -598,3 +598,66 @@ height: auto;
 @media (max-width: 700px) {
   .embed-3d-wrap { aspect-ratio: 4 / 5; }
 }
+/* ================================================================== */
+/* Spellbind — installation views                                      */
+/* ================================================================== */
+
+.installation-views-films {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 2rem);
+}
+
+.installation-view-luma,
+.installation-view-film {
+  width: 100%;
+}
+
+.installation-view-luma .embed-3d-wrap {
+  width: 100%;
+}
+
+.installation-view-film .film-real {
+  width: 100%;
+}
+
+.installation-views-images {
+  width: 100%;
+  display: flex;
+  gap: clamp(0.7rem, 1.2vw, 1.2rem);
+  margin-top: clamp(1.2rem, 2vw, 2rem);
+}
+
+.installation-view-image {
+  flex: 0 0 18vw;
+  width: 18vw;
+}
+
+.installation-view-image .piece-photo {
+  width: 100%;
+  height: auto;
+}
+
+.installation-view-image .piece-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 760px) {
+  .installation-views-films {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .installation-views-images {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  .installation-view-image {
+    flex: 0 0 68vw;
+    width: 68vw;
+  }
+}
