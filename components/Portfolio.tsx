@@ -562,11 +562,12 @@ export const projects: Project[] = [
       },
       { kind: 'grid', columns: 5, items: spellbindGrid },
       {
-        kind: 'embed3d',
-        url: 'https://lumalabs.ai/embed/A16D3019-752A-4C91-852D-E1D3439C689D?mode=sparkles&background=%23ECE8DF&color=%23262622&showTitle=false&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&showMenu=false',
-        label: '3D view of Spellbind, Ambika P3',
-        w: '40%',
-      },
+       {
+  kind: 'installationViews',
+  embedUrl: 'https://lumalabs.ai/embed/A16D3019-752A-4C91-852D-E1D3439C689D?mode=sparkles&background=%23ECE8DF&color=%23262622&showTitle=false&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&showMenu=false',
+  filmSrc: '/spellbind-installation-film.mp4',
+  label: 'Installation Views',
+},
     ],
   },
   {
