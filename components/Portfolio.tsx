@@ -421,19 +421,18 @@ const spellbindGrid: MediaItem[] = [
     type: 'photo' as const,
     src: `/images/spellbind-grid-${i + 1}.jpg`,
     alt: `Spellbind — study ${i + 1}`,
-  })),
+  })).filter((_, i) => ![6, 7, 14].includes(i)),
   ...Array.from({ length: 5 }, (_, i) => ({
     type: 'photo' as const,
     src: `/images/spellbind-grid-new${i + 1}.jpg`,
     alt: `Spellbind — study`,
-  })),
+  })).filter((_, i) => ![2, 4].includes(i)),
   ...Array.from({ length: 5 }, (_, i) => ({
     type: 'photo' as const,
     src: `/images/spellbind-grid-extra-${i + 1}.jpg`,
     alt: `Spellbind — study`,
   })),
 ]
-
 // Scroll: original items 3–12, then the two moved-to-end items (1 & 2), with a new photo leading the whole rail
 const spellbindScroll: RailItem[] = [
   { media: { type: 'photo', src: '/images/spellbind-scroll-new1.jpg', alt: 'Spellbind — scroll' }, w: '44vw', idx: '1', cap: '' },
