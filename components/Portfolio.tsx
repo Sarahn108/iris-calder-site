@@ -840,7 +840,7 @@ export function Contact() {
       <span className="ic-mono" style={{ opacity: 0.5, fontSize: '0.75rem' }}>Contact</span>
       <h2 className="contact-h2">Get in touch</h2>
       <a href="mailto:lightwork.co.uk@gmail.com" className="contact-link">
-        light-work.co.uk@gmail.com
+        lightwork.co.uk@gmail.com
       </a>
       <div style={{ marginTop: '3rem' }}>
         <span className="ic-mono" style={{ display: 'block', fontSize: '0.66rem', opacity: 0.55, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>
